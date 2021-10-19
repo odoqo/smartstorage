@@ -8,7 +8,7 @@ class StorageController extends Controller
 {
     public function profileAction()
     {
-        
+        $this->view->generate();
     }
 
 }
