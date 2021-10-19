@@ -21,23 +21,14 @@ return array(
 	),
 
 	// профиль
-	'smartstorage/storage' => array(
+	'smartstorage/profile' => array(
 		'controller' => 'storage',
 		'action' 	 => 'profile',
 	),
 
-	// 
-	'smartstorage/storages' => array(
-		'controller' => 'profile',
-		'action' 	 => 'storages',
+	//TEST
+	'smartstorage/test' => array(
+		'controller' => 'test',
+		'action' 	 => 'test',
 	),
-	
-	// страница создания
-	'smartstorage/create' => array(
-		'controller' => 'profile',
-		'action' 	 => 'create',
-	),
-
-
-
 );

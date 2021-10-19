@@ -8,10 +8,18 @@ class AccountController extends Controller {
 
 	public function loginAction() 
 	{
-		//echo 'login page';
-		if (empty($_POST)) {
+		// проверка на авторизированного пользователя
+		if ($this->model->userLogged()) {
+			$this->view->redirect('http://localhost/smartstorage/profile/');
+		} 
+		
+		// проверка на наличие данных для входа
+		elseif (empty($_POST)) {
 			$this->view->generate();
-		} else {
+		} 
+		
+		// вход в аккаунт
+		else {
 
 			$status = $this->model->signIn();
 			
@@ -26,17 +34,26 @@ class AccountController extends Controller {
 	
 	public function registerAction() 
 	{
-		if (empty($_POST)) {
+		// проверка на авторизированного пользователя
+		if ($this->model->userLogged()) {
+			$this->view->redirect('http://localhost/smartstorage/profile/');
+		} 
+		
+		// проверка на наличие данных для регистрации
+		elseif (empty($_POST)) {
 			$this->view->generate();
-		} else {
+		} 
+		
+		// регистрация аккаунта
+		else {
 			
 			$status = $this->model->signUp();
 			if ($status === 'success') {
-				$this->view->redirect('http://localhost/smartstorage/login/');
+				$this->view->redirect('http://localhost/smartstorage/profile/');
 			}	
 
 			$error = ['error' => $status];
 			$this->view->generate($error);
-		}
-	}	
+		}	
+	}
 }

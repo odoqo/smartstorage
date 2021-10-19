@@ -4,7 +4,7 @@ namespace application\models;
 
 use application\core\Model;
 
-class Profile extends Model {
+class Storage extends Model {
 
 
 
