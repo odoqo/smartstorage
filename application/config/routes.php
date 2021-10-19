@@ -4,8 +4,8 @@ return array(
 
 	//главная страница
 	'smartstorage' => array(
-		'controller' => 'main',
-		'action' 	 => 'index',
+		'controller' => 'account',
+		'action' 	 => 'login',
 	),
 
 	// страницы авторизации

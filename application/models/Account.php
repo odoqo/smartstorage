@@ -11,12 +11,14 @@ class Account extends Model
 
     private $login;
     private $password;
+    private $key;
 
     public function __construct()
     {
         parent::__construct();
         $this->login = $_POST['login'] ?? '';
-        $this->password = $_POST['password'] ?? ''; 
+        $this->password = $_POST['password'] ?? '';
+        $this->key = $this->generateSalt(); 
     }
 
 	public function signUp() 
@@ -52,7 +54,9 @@ class Account extends Model
             return 'error: invalid password';
         }
 
-        $this->setCockie();
+        $$this->setCockie();
+
+        $_SESSION['auth'] = true;
 
         return 'success';
     }
@@ -67,10 +71,20 @@ class Account extends Model
     {   
         unset($_COOKIE);   
              
-        $hash = hash('sha256', $this->password);
         setcookie('login', $this->login, time() + 1000);
-        setcookie('hash', $hash, time() + 1000);
+        setcookie('hash', $this->key, time() + 1000);
     }
+
+    private function generateSalt()
+	{
+		$salt = '';
+		$saltLength = 8;
+		for($i = 0; $i < $saltLength; ++$i) {
+			$salt .= chr(mt_rand(33, 126));
+		}
+
+		return $salt;
+	}
 
     private function addUser() 
     {
@@ -78,6 +92,7 @@ class Account extends Model
 
         $dataArr = array(
             'login'    => $this->login,
+            'cookie'   => $this->key,
             'password' => $hash,
         );  
 

@@ -27,6 +27,12 @@ class Db
 			return $result ? $result->fetch_assoc() : false;
 		}
 
+		public function getAllField(string $__table, $__field)
+		{
+			$this->link-
+		}
+
+
 		/**
 		 * 
 		 */
