@@ -8,7 +8,22 @@ class AccountController extends Controller {
 
 	public function loginAction() 
 	{
-		//echo 'login page';
+          // setcookie('login', '');
+          // setcookie('cookie', '');
+
+		//проверка на наличие куки
+                if (isset($_COOKIE['login']) && isset($_COOKIE['cookie'])) {  
+                    
+                    $userData = $this->model->checkUserByCookie();
+                    //для безопасности - проверка куки
+                    if ($userData['cookie'] == $_COOKIE['cookie'] && $userData['login'] == $_COOKIE['login']) {
+                       $this->view->redirect('http://localhost/smartstorage/profile/');
+                    }
+                    else {
+                        $error = ['error' => 'error: other cookie'];
+			$this->view->generate($error);
+                    }
+                }
 		if (empty($_POST)) {
 			$this->view->generate();
 		} else {
