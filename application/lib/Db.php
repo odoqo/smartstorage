@@ -27,18 +27,22 @@ class Db
 			return $result ? $result->fetch_assoc() : false;
 		}
 
-		public function getAllField(string $__table, $__field)
-		{
-			$this->link-
-		}
-
-
 		/**
 		 * 
 		 */
 		public function insertIntoTable(string $__table, array $__data)
 		{
 			$query  = $this->createInsert($__table, $__data);
+			$result = $this->makeQuery($query);
+			return $result;
+		}
+                
+                		/**
+		 * 
+		 */
+		public function updateTable(string $__table, array $__data)
+		{
+			$query  = $this->createUpdate($__table, $__data);
 			$result = $this->makeQuery($query);
 			return $result;
 		}
@@ -101,6 +105,11 @@ class Db
 			$fieldsQuery = substr($fieldsQuery, 0, -1);
 			$valuesQuery = substr($valuesQuery, 0, -1);
 			return "INSERT INTO `$__table` ($fieldsQuery) VALUES ($valuesQuery)";
+		}
+                
+                private function createUpdate(string $__table, array $__data)
+		{
+			return "UPDATE $__table SET".$__data['what']."='".$__data['new']."' WHERE login='".$__data['login']."'";
 		}
 
 		/**

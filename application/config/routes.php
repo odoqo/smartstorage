@@ -21,7 +21,7 @@ return array(
 	),
 
 	// профиль
-	'smartstorage/storage' => array(
+	'smartstorage/profile' => array(
 		'controller' => 'storage',
 		'action' 	 => 'profile',
 	),
