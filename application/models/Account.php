@@ -21,6 +21,11 @@ class Account extends Model
         $this->key = $this->generateSalt(); 
     }
 
+    public function checkUserByCookie()
+    {
+       return $this->db->selectFromTable('users', By::login($_COOKIE['login']));
+    } 
+    
 	public function signUp() 
     {
         if (!$this->checklogin() || !$this->checkPassword()) {
@@ -54,9 +59,7 @@ class Account extends Model
             return 'error: invalid password';
         }
 
-        $$this->setCockie();
-
-        $_SESSION['auth'] = true;
+        $this->setCockie();
 
         return 'success';
     }
@@ -70,12 +73,17 @@ class Account extends Model
     private function setCockie() 
     {   
         unset($_COOKIE);   
-             
+        
+        $data = ['login'=>$this->login,
+            'new'=>$this->key,
+            'what'=>'cookie'];
+        $this->db->updateTable('users',$data);
+        
         setcookie('login', $this->login, time() + 1000);
-        setcookie('hash', $this->key, time() + 1000);
+        setcookie('cookie', $this->key, time() + 1000);
     }
-
-    private function generateSalt()
+    
+        private function generateSalt()
 	{
 		$salt = '';
 		$saltLength = 8;
@@ -94,7 +102,7 @@ class Account extends Model
             'login'    => $this->login,
             'cookie'   => $this->key,
             'password' => $hash,
-        );  
+        );   
 
         return $this->db->insertIntoTable('users', $dataArr);
     }
