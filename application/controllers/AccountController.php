@@ -10,11 +10,11 @@ class AccountController extends Controller {
 	{
 		// проверка на авторизированного пользователя
 		if ($this->model->userLogged()) {
-			//$this->view->redirect('http://localhost/smartstorage/profile/');
+			$this->view->redirect('http://localhost/smartstorage/profile/');
 		} 
 		
 		// проверка на наличие данных для входа
-		if (empty($_POST)) {
+		elseif (empty($_POST)) {
 			$this->view->generate();
 		} 
 		
@@ -36,11 +36,11 @@ class AccountController extends Controller {
 	{
 		// проверка на авторизированного пользователя
 		if ($this->model->userLogged()) {
-			//$this->view->redirect('http://localhost/smartstorage/profile/');
+			$this->view->redirect('http://localhost/smartstorage/profile/');
 		} 
 		
 		// проверка на наличие данных для регистрации
-		if (empty($_POST)) {
+		elseif (empty($_POST)) {
 			$this->view->generate();
 		} 
 		

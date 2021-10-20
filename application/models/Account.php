@@ -63,7 +63,8 @@ class Account extends Model
 
     public function logout()
     {
-        setcookie('key', '', time() - 10000);
+        setcookie('login');
+        setcookie('key');
         unset($_SESSION);
         session_destroy();
     }
