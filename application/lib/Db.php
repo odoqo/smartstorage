@@ -20,29 +20,26 @@ class Db
 		/**
 		 * 
 		 */
-		public function selectFromTable(string $__table, By $__by)
+		public function selectRow(string $__table, By $__by)
 		{	
-			$query 	= $this->createSelect($__table, $__by);
+			$query 	= $this->createSelectRow($__table, $__by);
 			$result = $this->makeQuery($query);
 			return $result ? $result->fetch_assoc() : false;
 		}
 
+		public function selectCols(string $__table, array $__fields)
+		{	
+			$query 	= $this->createSelectCols($__table, $__fields);
+			$result = $this->makeQuery($query);
+			return $result ? $result->fetch_all() : false;
+		}
+
 		/**
 		 * 
 		 */
-		public function insertIntoTable(string $__table, array $__data)
+		public function insertRow(string $__table, array $__data)
 		{
-			$query  = $this->createInsert($__table, $__data);
-			$result = $this->makeQuery($query);
-			return $result;
-		}
-                
-                		/**
-		 * 
-		 */
-		public function updateTable(string $__table, array $__data)
-		{
-			$query  = $this->createUpdate($__table, $__data);
+			$query  = $this->createInsertRow($__table, $__data);
 			$result = $this->makeQuery($query);
 			return $result;
 		}
@@ -50,51 +47,133 @@ class Db
 		/**
 		 * 
 		 */
-		public function deleteFromTable(string $__table, By $__by)
+		public function deleteRow(string $__table, By $__by)
 		{
-			$query  = $this->createDelete($__table, $__by);
+			$query  = $this->createDeleteRow($__table, $__by);
 			$result = $this->makeQuery($query);
 			return $result;
+		}
+
+		public function updateFields(string $__table, By $__by,  array $__sets)
+		{
+			$query  = $this->createUpdate($__table, $__by, $__sets);
+			$result = $this->makeQuery($query);
+			return $result;
+		}
+
+		private function createUpdate(string $__table, By $__by, array $__sets)
+		{
+			$fields='';
+			foreach ($__sets as $field => $value) {
+				$fields .= $field . " = '$value', ";
+			}
+
+			$fields = substr($fields, 0, -2);
+			
+			switch ($__by->getMechanism()) {
+			
+				// by id
+				case 'id':
+					$id = $__by->getValue()['id'];
+					return "UPDATE `$__table` SET $fields WHERE id='{$id}'";
+				
+				// by username
+				case 'login':
+					$login = $__by->getValue()['login'];
+					return "UPDATE `$__table` SET $fields WHERE login='{$login}'";
+
+				// by login and cookie
+				case 'loginAndCookie':
+					$login  = $__by->getValue()['login'];
+					$cookie = $__by->getValue()['cookie'];
+					return "UPDATE `$__table` SET $fields WHERE login='{$login}' AND cookie='{$cookie}'";
+
+				// by login and password
+				case 'loginAndPassword':
+					$login    = $__by->getValue()['login'];
+					$password = $__by->getValue()['password'];
+					return "UPDATE `$__table` SET $fields WHERE login='{$login}' AND cookie='{$password}'";
+			}
 		}
 
 		/**
 		 * 
 		 */
-		private function createSelect(string $__table, By $__by)
+		private function createSelectRow(string $__table, By $__by)
 		{
 			switch ($__by->getMechanism()) {
 			
 				// by id
 				case 'id':
-					return "SELECT * FROM `$__table` WHERE id='{$__by->getValue()}'";
+					$id = $__by->getValue()['id'];
+					return "SELECT * FROM `$__table` WHERE id='{$id}'";
 				
 				// by username
 				case 'login':
-					return "SELECT * FROM `$__table` WHERE login='{$__by->getValue()}'";
+					$login = $__by->getValue()['login'];
+					return "SELECT * FROM `$__table` WHERE login='{$login}'";
+
+				// by login and cookie
+				case 'loginAndCookie':
+					$login  = $__by->getValue()['login'];
+					$cookie = $__by->getValue()['cookie'];
+					return "SELECT * FROM `$__table` WHERE login='{$login}' AND cookie='{$cookie}'";
+
+				// by login and password
+				case 'loginAndPassword':
+					$login    = $__by->getValue()['login'];
+					$password = $__by->getValue()['password'];
+					return "SELECT * FROM `$__table` WHERE login='{$login}' AND cookie='{$password}'";
 			}
+		}
+
+		private function createSelectCols(string $__table, array $__fields)
+		{
+			$fields='';
+			foreach ($__fields as $field) {
+				$fields .= $field . ', ';
+			}
+
+			$fields = substr($fields, 0, -2);
+
+			return "SELECT $fields FROM `$__table`";
 		}
 
 		/**
 		 *
 		 */
-		private function createDelete(string $__table, By $__by)
+		private function createDeleteRow(string $__table, By $__by)
 		{
 			switch ($__by->getMechanism()) {
 			
 				// by id
 				case 'id':
-					return "DELETE FROM `$__table` WHERE id='{$__by->getValue()}'";
+					$id = $__by->getValue()['id'];
+					return "DELETE FROM `$__table` WHERE id='{$id}'";
 				
 				// by username
 				case 'login':
-					return "DELETE FROM `$__table` WHERE login='{$__by->getValue()}'";
+					$login = $__by->getValue()['login'];
+					return "DELETE FROM `$__table` WHERE login='{$login}'";
+
+				// by login and cookie
+				case 'loginAndCookie':
+					$login  = $__by->getValue()['login'];
+					$cookie = $__by->getValue()['cookie'];
+					return "DELETE FROM `$__table` WHERE login='{$login}' AND cookie='{$cookie}'";
+
+				// by login and password
+				case 'loginAndPassword':
+					$login    = $__by->getValue()['login'];
+					$password = $__by->getValue()['password'];
+					return "DELETE FROM `$__table` WHERE login='{$login}' AND cookie='{$password}'";
 			}
 		}
 
 		/**
 		 * 
 		 */
-		private function createInsert(string $__table, array $__data)
+		private function createInsertRow(string $__table, array $__data)
 		{
 			$fieldsQuery = $valuesQuery = '';
 			foreach($__data as $field => $value) {
@@ -105,11 +184,6 @@ class Db
 			$fieldsQuery = substr($fieldsQuery, 0, -1);
 			$valuesQuery = substr($valuesQuery, 0, -1);
 			return "INSERT INTO `$__table` ($fieldsQuery) VALUES ($valuesQuery)";
-		}
-                
-                private function createUpdate(string $__table, array $__data)
-		{
-			return "UPDATE $__table SET".$__data['what']."='".$__data['new']."' WHERE login='".$__data['login']."'";
 		}
 
 		/**

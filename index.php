@@ -2,6 +2,7 @@
 
 session_start();
 
+require 'application/lib/Dev.php';
 use application\core\Router;
 
 // подгрузка необходимых классов

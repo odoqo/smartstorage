@@ -16,16 +16,10 @@ class Account extends Model
     public function __construct()
     {
         parent::__construct();
-        $this->login = $_POST['login'] ?? '';
+        $this->login    = $_POST['login'] ?? '';
         $this->password = $_POST['password'] ?? '';
-        $this->key = $this->generateSalt(); 
     }
 
-    public function checkUserByCookie()
-    {
-       return $this->db->selectFromTable('users', By::login($_COOKIE['login']));
-    } 
-    
 	public function signUp() 
     {
         if (!$this->checklogin() || !$this->checkPassword()) {
@@ -41,6 +35,8 @@ class Account extends Model
         }
 
         $this->setCockie();
+
+        $_SESSION['auth'] = true;
 
         return 'success'; 
     }
@@ -61,29 +57,42 @@ class Account extends Model
 
         $this->setCockie();
 
+        $_SESSION['auth'] = true;
+
         return 'success';
+    }
+
+    public function userLogged() 
+    {
+        if (isset($_SESSION['auth']) && $_SESSION['auth'] === true) {
+            return true;
+        } elseif (isset($_COOKIE['login']) && isset($_COOKIE['key'])) {
+            $login = $_COOKIE['login'];
+            $key   = $_COOKIE['key'];
+            return $this->db->selectRow('users', By::loginAndCookie($login, $key)) ;
+        }
     }
 
     private function authentication()
     {
-        $userRow = $this->db->selectFromTable('users', By::login($this->login));
-        return $userRow['login'] === $this->login && $userRow['password'] === hash('sha256', $this->password);
+        $hash = hash('sha256', $this->password);
+        return $this->db->selectRow('users', By::loginAndPassword($this->login,  $hash));
     }
 
     private function setCockie() 
     {   
-        unset($_COOKIE);   
-        
-        $data = ['login'=>$this->login,
-            'new'=>$this->key,
-            'what'=>'cookie'];
-        $this->db->updateTable('users',$data);
-        
-        setcookie('login', $this->login, time() + 1000);
-        setcookie('cookie', $this->key, time() + 1000);
-    }
+        $key = hash('sha256', $this->generateSalt()); 
     
-        private function generateSalt()
+        unset($_COOKIE);   
+             
+        setcookie('login', $this->login, time() + 1000);
+        setcookie('key', $key, time() + 1000);
+
+        $setsFields = ['cookie' => $key];
+        $this->db->updateFields('users', By::login($this->login), $setsFields);
+    }
+
+    private function generateSalt()
 	{
 		$salt = '';
 		$saltLength = 8;
@@ -100,16 +109,15 @@ class Account extends Model
 
         $dataArr = array(
             'login'    => $this->login,
-            'cookie'   => $this->key,
             'password' => $hash,
-        );   
+        );  
 
-        return $this->db->insertIntoTable('users', $dataArr);
+        return $this->db->insertRow('users', $dataArr);
     }
 
     private function userExist()    
     {
-       return $this->db->selectFromTable('users', By::login($this->login)) ?: false;
+       return $this->db->selectRow('users', By::login($this->login)) ?: false;
     }
 
     private function userNotExist()

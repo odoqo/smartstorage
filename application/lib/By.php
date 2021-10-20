@@ -5,38 +5,44 @@ namespace application\lib;
 class By
 {
     private string $mechanism;
-    private string $value;
+    private array  $values;
 
-    private function __construct($__mechanism, $__value)
+    private function __construct($__mechanism, $__values)
     {
         $this->mechanism = $__mechanism;
-        $this->value     = $__value;
+        $this->values    = $__values;
     }
 
-    /**
-     * @return string
-     */
     public function getMechanism()
     {
         return $this->mechanism;
     }
 
-    /**
-     * @return string
-     */
     public function getValue()
     {
-        return $this->value;
+        return $this->values;
     }
 
-    public static function Id(string $__id)
+    public static function id(string $__id)
     {
-        return new static('id', $__id);
+        return new static('id', ['id' => $__id]);
     }
     
     public static function login(string $__login)
     {
-        return new static('login', $__login);
+        return new static('login', ['login' => $__login]);
+    }
+
+    public static function loginAndCookie(string $__login, string $__cookie)
+    {
+        $values = ['login' => $__login, 'cookie' => $__cookie];
+        return new static('loginAndCookie', $values);
+    }
+
+    public static function loginAndPassword(string $__login, string $__password)
+    {
+        $values = ['login' => $__login, 'cookie' => $__password];
+        return new static('loginAndCookie', $values);
     }
 
     
