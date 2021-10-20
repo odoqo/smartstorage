@@ -60,7 +60,7 @@ class AccountController extends Controller {
 	public function logoutAction()
 	{
 		$this->model->logout();
-		$this->view->redirect('http://localhost/smartstorage/login/');
+		$this->view->redirect('http://localhost/smartstorage/');
 	}
 
 }
