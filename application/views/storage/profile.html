@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Storage</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <form action="index.php" method="POST" enctype="multipart/form-data">
+        <nav class="navbar navbar-light border-bottom border-2" style="background-color: #e7f9ff;"">
+            <h1 class="display-6 mx-3"><strong>Smart Storage</strong></h1>
+            <a class="btn btn-sm btn-danger mx-2" name="logout" href="http://localhost/smartstorage/logout/" type="button">Выход</a>
+        </nav>
+        <div class="container">
+			
+			<div class="row mt-4">
+				
+                <div class="col-3"> 
+					<div class="list-group">
+					<!-- users_cycle -->
+						<a href="#" class="list-group-item list-group-item-action">
+							<h3 class=""><span class="text-body badge bg-light"><!-- .$user --></span></h3>
+						</a>
+					<!-- users_cycle_ends -->
+                    </div>
+                </div>
+
+
+                <div class="col-3">
+					<div class="list-group">
+						<div class="list-group-item bg-light">
+						    <h5><!-- .$current_dir --></h5>
+                            <button type="button" class="btn btn-sm btn-secondary m-1">Перейти на уровень выше</button>
+						</div>
+						<div class="list-group-item bg-light">
+                            <input type="file" name="file" class="form-control form-control-sm border-dark m-1">
+                            <div class="form-check">
+							    <input class="form-check-input" type="radio" name="file_rights" value="private" id="f1" checked>
+							    <label class="form-check-label" for="f1">Private</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="file_rights" value="public" id="f2">
+                                <label class="form-check-label" for="f2">Public</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="file_rights" value="protected" id="f3" data-bs-toggle="collapse" data-bs-target="#collapse_file_protected" aria-expanded="false" aria-controls="collapse_file_protected">
+                                <label class="form-check-label" for="f3">Protected</label>
+                            </div>
+                            <div class="collapse" id="collapse_file_protected">
+                                <select name="list_of_users[]" multiple="multiple" class="form-select form-select-sm m-1" aria-label=".form-select-sm example" placeholder="Список пользователей">
+                                    <option selected value="<!-- .$user_now -->"><!-- .$user_now --></option>
+                                    <!-- list_users_cycle -->
+                                    <option value="<!-- .$user -->"><!-- .$user --></option>
+                                    <!-- list_users_cycle_ends -->
+                                </select>
+                            </div>                     
+                            <button type="submit" name="add_file" class="btn btn-sm border-2 btn-outline-success m-1">Добавить файл</button>
+                        </div>
+                        <div class="list-group-item bg-light">
+                            <input type="text" name="catalog" class="form-control border-dark m-1" placeholder="Назавание добавляемого каталога">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="catalog_rights" value="private" id="c1" checked>
+                                <label class="form-check-label" for="c1">Private</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="catalog_rights" value="public" id="c2">
+                                <label class="form-check-label" for="c2">Public</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="catalog_rights" value="protected" id="c3" data-bs-toggle="collapse" data-bs-target="#collapse_catalog_protected" aria-expanded="false" aria-controls="collapse_catalog_protected">
+                                <label class="form-check-label" for="c3">Protected</label>
+                            </div>
+                            <div class="collapse" id="collapse_catalog_protected">
+                                <select name="list_of_users[]" multiple="multiple" class="form-select form-select-sm m-1" aria-label=".form-select-sm example" placeholder="Список пользователей">
+                                    <option selected value="<!-- .$user_now -->"><!-- .$user_now --></option>
+                                    <!-- list_users_cycle -->
+                                    <option value="<!-- .$user -->"><!-- .$user --></option>
+                                    <!-- list_users_cycle_ends -->
+                                </select>
+                            </div>
+                            <button type="submit" name="add_cat" class="btn btn-sm border-2 btn-outline-success m-1">Добавить каталог</button>
+                        </div>
+					</div>
+                </div>
+				<div class="col -3 ">
+                    <div class="list-group">
+                        <ul class="list-group">
+                            <!-- data_cycle -->
+                            <li class="list-group-item">
+                                <h5><!-- .$file_or_dir_name --></h5>
+                                <button type="submit" name="<!-- .$file_or_cat -->" value="<!-- .$name_file_or_cat -->" class="btn btn-sm btn-outline-success m-1"><!-- .$load_or_go --></button>
+                                <button type="submit" name="<!-- .$delete_file_or_cat -->" value="<!-- .$id_file_or_cat -->" class="btn btn-sm btn-outline-danger m-1">Удалить</button>
+                            </li>
+                            <!-- data_cycle_ends -->
+                        </ul>
+                    </div>
+                </div>
+			</div>
+        </div>
+        </div>
+    </form>
+</body>
+</html>
