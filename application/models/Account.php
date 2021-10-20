@@ -63,7 +63,8 @@ class Account extends Model
 
     public function logout()
     {
-        setcookie('login', '', time() - 60*5, '/smartstorage/profile/');
+        
+        setcookie('login', '', time() - 60*5, '/');
         setcookie('key', '', time() - 60*5, '/');
         unset($_SESSION);
         session_destroy();
@@ -92,8 +93,8 @@ class Account extends Model
     {   
         $key = hash('sha256', $this->generateSalt()); 
              
-        setcookie('login', $this->login, time() + 60*5);
-        setcookie('key', $key, time() + 60*5);
+        setcookie('login', $this->login, time() + 60*5, '/');
+        setcookie('key', $key, time() + 60*5, '/');
 
         $setsFields = ['cookie' => $key];
         $this->db->updateFields('users', By::login($this->login), $setsFields);

@@ -92,11 +92,8 @@ class Db
 				case 'loginAndPassword':
 					$login    = $__by->getValue()['login'];
 					$password = $__by->getValue()['password'];
-<<<<<<< HEAD
-					return "UPDATE `$__table` SET $fields WHERE login='{$login}' AND cookie='{$password}'";
-=======
+
 					return "UPDATE `$__table` SET $fields WHERE login='{$login}' AND password='{$password}'";
->>>>>>> dev
 			}
 		}
 
@@ -124,17 +121,10 @@ class Db
 					return "SELECT * FROM `$__table` WHERE login='{$login}' AND cookie='{$cookie}'";
 
 				// by login and password
-<<<<<<< HEAD
-				case 'loginAndPassword':
-					$login    = $__by->getValue()['login'];
-					$password = $__by->getValue()['password'];
-					return "SELECT * FROM `$__table` WHERE login='{$login}' AND cookie='{$password}'";
-=======
 				case 'loginAndPassword':	
 					$login    = $__by->getValue()['login'];
 					$password = $__by->getValue()['password'];
 					return "SELECT * FROM `$__table` WHERE login='{$login}' AND password='{$password}'";
->>>>>>> dev
 			}
 		}
 
@@ -177,11 +167,8 @@ class Db
 				case 'loginAndPassword':
 					$login    = $__by->getValue()['login'];
 					$password = $__by->getValue()['password'];
-<<<<<<< HEAD
-					return "DELETE FROM `$__table` WHERE login='{$login}' AND cookie='{$password}'";
-=======
+
 					return "DELETE FROM `$__table` WHERE login='{$login}' AND password='{$password}'";
->>>>>>> dev
 			}
 		}
 
