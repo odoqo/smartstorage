@@ -13,7 +13,6 @@ spl_autoload_register(function($class) {
 
 });
 
-
 // запуск маршрутизатора
 $router = new Router;
 $router->run();

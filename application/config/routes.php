@@ -20,6 +20,11 @@ return array(
 		'action' 	 => 'register',
 	),
 
+	// выход из аккаунта
+	'smartstorage/logout' => array(
+		'controller' => 'account',
+		'action' 	 => 'logout',
+	),
 	// профиль
 	'smartstorage/profile' => array(
 		'controller' => 'storage',
