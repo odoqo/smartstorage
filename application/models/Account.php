@@ -61,8 +61,6 @@ class Account extends Model
         return 'success';
     }
 
-<<<<<<< HEAD
-=======
     public function logout()
     {
         setcookie('login', '', time() - 60*5, '/smartstorage/profile/');
@@ -71,18 +69,13 @@ class Account extends Model
         session_destroy();
     }
 
->>>>>>> dev
     public function userLogged() 
     {
         if (isset($_SESSION['auth']) && $_SESSION['auth'] === true) {
             return true;
-<<<<<<< HEAD
-        } elseif (isset($_COOKIE['login']) && isset($_COOKIE['key'])) {
-=======
         } 
 
         if (isset($_COOKIE['login']) && isset($_COOKIE['key'])) {
->>>>>>> dev
             $login = $_COOKIE['login'];
             $key   = $_COOKIE['key'];
             return $this->db->selectRow('users', By::loginAndCookie($login, $key)) ;
@@ -98,17 +91,9 @@ class Account extends Model
     private function setCockie() 
     {   
         $key = hash('sha256', $this->generateSalt()); 
-<<<<<<< HEAD
-    
-        unset($_COOKIE);   
-             
-        setcookie('login', $this->login, time() + 1000);
-        setcookie('key', $key, time() + 1000);
-=======
              
         setcookie('login', $this->login, time() + 60*5);
         setcookie('key', $key, time() + 60*5);
->>>>>>> dev
 
         $setsFields = ['cookie' => $key];
         $this->db->updateFields('users', By::login($this->login), $setsFields);
