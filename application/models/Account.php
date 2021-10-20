@@ -11,7 +11,6 @@ class Account extends Model
 
     private $login;
     private $password;
-    private $key;
 
     public function __construct()
     {
@@ -62,11 +61,20 @@ class Account extends Model
         return 'success';
     }
 
+    public function logout()
+    {
+        setcookie('key', '', time() - 10000);
+        unset($_SESSION);
+        session_destroy();
+    }
+
     public function userLogged() 
     {
         if (isset($_SESSION['auth']) && $_SESSION['auth'] === true) {
             return true;
-        } elseif (isset($_COOKIE['login']) && isset($_COOKIE['key'])) {
+        } 
+
+        if (isset($_COOKIE['login']) && isset($_COOKIE['key'])) {
             $login = $_COOKIE['login'];
             $key   = $_COOKIE['key'];
             return $this->db->selectRow('users', By::loginAndCookie($login, $key)) ;
@@ -82,11 +90,9 @@ class Account extends Model
     private function setCockie() 
     {   
         $key = hash('sha256', $this->generateSalt()); 
-    
-        unset($_COOKIE);   
              
-        setcookie('login', $this->login, time() + 1000);
-        setcookie('key', $key, time() + 1000);
+        setcookie('login', $this->login, time() + 100);
+        setcookie('key', $key, time() + 100);
 
         $setsFields = ['cookie' => $key];
         $this->db->updateFields('users', By::login($this->login), $setsFields);
