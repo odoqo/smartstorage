@@ -33,6 +33,11 @@ class By
         return new static('login', ['login' => $__login]);
     }
 
+    public static function notLogin(string $__login)
+    {
+        return new static('notLogin', ['login' => $__login]);    
+    } 
+
     public static function loginAndCookie(string $__login, string $__cookie)
     {
         $values = ['login' => $__login, 'cookie' => $__cookie];
@@ -45,5 +50,10 @@ class By
         return new static('loginAndPassword', $values);
     }
 
+    public static function vPathAndOwner(string $__path, string $__owner)
+    {
+        $values = ['vPath' => $__path, 'owner' => $__owner];
+        return new static('vPathAndOwner', $values); 
+    }
     
 }

@@ -35,8 +35,8 @@ class Account extends Model
 
         $this->setCockie();
 
-        $_SESSION['auth'] = true;
-
+        $_SESSION['auth']  = true;
+        
         return 'success'; 
     }
 
@@ -56,14 +56,14 @@ class Account extends Model
 
         $this->setCockie();
 
-        $_SESSION['auth'] = true;
+        $_SESSION['auth']  = true;
 
         return 'success';
     }
 
     public function logout()
     {
-        setcookie('login', '', time() - 60*5, '/smartstorage/profile/');
+        setcookie('login', '', time() - 60*5, '/');
         setcookie('key', '', time() - 60*5, '/');
         unset($_SESSION);
         session_destroy();
@@ -92,8 +92,8 @@ class Account extends Model
     {   
         $key = hash('sha256', $this->generateSalt()); 
              
-        setcookie('login', $this->login, time() + 60*5);
-        setcookie('key', $key, time() + 60*5);
+        setcookie('login', $this->login, time() + 60*5, '/');
+        setcookie('key', $key, time() + 60*5, '/');
 
         $setsFields = ['cookie' => $key];
         $this->db->updateFields('users', By::login($this->login), $setsFields);
@@ -135,7 +135,7 @@ class Account extends Model
     private function checklogin()
     {
         // format
-        $regexp = '/^[^@]+@[^@.]+\.[^@]+$/';
+        $regexp = '/^[^@]+@[^@.]{0,10}\.[^@]{1,4}$/';
         return preg_match($regexp, $this->login);
     }
 
