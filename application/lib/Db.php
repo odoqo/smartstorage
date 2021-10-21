@@ -7,9 +7,6 @@ class Db
 		// database manager
 		private $link;
 
-		/**
-		 * 
-		 */
 		public function __construct()
 		{
 			//connect to database
@@ -17,26 +14,20 @@ class Db
 			$this->link = mysqli_connect($config['host'], $config['user'], $config['password'], $config['name']);
 		}
 
-		/**
-		 * 
-		 */
-		public function selectRow(string $__table, By $__by)
+		public function selectRow(string $__table, By $__by, array $__fields=[])
 		{	
-			$query 	= $this->createSelectRow($__table, $__by);
+			$query 	= $this->createSelect($__table, $__by, $__fields);
 			$result = $this->makeQuery($query);
 			return $result ? $result->fetch_assoc() : false;
 		}
 
-		public function selectCols(string $__table, array $__fields)
+		public function selectRows(string $__table, By $__by, array $__fields=[])
 		{	
-			$query 	= $this->createSelectCols($__table, $__fields);
+			$query 	= $this->createSelect($__table, $__by, $__fields);
 			$result = $this->makeQuery($query);
 			return $result ? $result->fetch_all() : false;
 		}
 
-		/**
-		 * 
-		 */
 		public function insertRow(string $__table, array $__data)
 		{
 			$query  = $this->createInsertRow($__table, $__data);
@@ -44,9 +35,6 @@ class Db
 			return $result;
 		}
 
-		/**
-		 * 
-		 */
 		public function deleteRow(string $__table, By $__by)
 		{
 			$query  = $this->createDeleteRow($__table, $__by);
@@ -92,52 +80,64 @@ class Db
 				case 'loginAndPassword':
 					$login    = $__by->getValue()['login'];
 					$password = $__by->getValue()['password'];
-
 					return "UPDATE `$__table` SET $fields WHERE login='{$login}' AND password='{$password}'";
-			}
+				
+				default:
+					return false;
+				}
 		}
 
 		/**
 		 * 
 		 */
-		private function createSelectRow(string $__table, By $__by)
+
+		private function createSelect(string $__table, By $__by,  array $__fields=[])
 		{
-			switch ($__by->getMechanism()) {
-			
-				// by id
-				case 'id':
-					$id = $__by->getValue()['id'];
-					return "SELECT * FROM `$__table` WHERE id='{$id}'";
-				
-				// by username
-				case 'login':
-					$login = $__by->getValue()['login'];
-					return "SELECT * FROM `$__table` WHERE login='{$login}'";
 
-				// by login and cookie
-				case 'loginAndCookie':
-					$login  = $__by->getValue()['login'];
-					$cookie = $__by->getValue()['cookie'];
-					return "SELECT * FROM `$__table` WHERE login='{$login}' AND cookie='{$cookie}'";
-
-				// by login and password
-				case 'loginAndPassword':	
-					$login    = $__by->getValue()['login'];
-					$password = $__by->getValue()['password'];
-					return "SELECT * FROM `$__table` WHERE login='{$login}' AND password='{$password}'";
-			}
-		}
-
-		private function createSelectCols(string $__table, array $__fields)
-		{
 			$fields='';
 			foreach ($__fields as $field) {
 				$fields .= $field . ', ';
 			}
 
-			$fields = substr($fields, 0, -2);
+			$fields = $fields ? substr($fields, 0, -2) : '*';
 
-			return "SELECT $fields FROM `$__table`";
+			switch ($__by->getMechanism()) {
+			
+				// by id
+				case 'id':
+					$id = $__by->getValue()['id'];
+					return "SELECT $fields FROM `$__table` WHERE id='{$id}'";
+				
+				// by username
+				case 'login':
+					$login = $__by->getValue()['login'];
+					return "SELECT $fields FROM `$__table` WHERE login='{$login}'";
+
+				// by login and cookie
+				case 'loginAndCookie':
+					$login  = $__by->getValue()['login'];
+					$cookie = $__by->getValue()['cookie'];
+					return "SELECT $fields FROM `$__table` WHERE login='{$login}' AND cookie='{$cookie}'";
+
+				// by login and password
+				case 'loginAndPassword':
+					$login    = $__by->getValue()['login'];
+					$password = $__by->getValue()['password'];
+					return "SELECT $fields FROM `$__table` WHERE login='{$login}' AND password='{$password}'";
+			    
+				case 'notLogin' :
+					$login = $__by->getValue()['login'];
+					return "SELECT $fields FROM `$__table` WHERE login!='{$login}'";
+
+				case 'vPathAndOwner' :
+					$path  = $__by->getValue()['vPath'];
+					$owner = $__by->getValue()['owner'];
+					return "SELECT $fields FROM `$__table` WHERE owner='{$owner}' AND virtual_path='{$path}'";
+
+				default :
+					return "SELECT $fields FROM `$__table`";
+				}
+
 		}
 
 		/**
@@ -167,8 +167,10 @@ class Db
 				case 'loginAndPassword':
 					$login    = $__by->getValue()['login'];
 					$password = $__by->getValue()['password'];
-
 					return "DELETE FROM `$__table` WHERE login='{$login}' AND password='{$password}'";
+
+				default :
+					return false;
 			}
 		}
 

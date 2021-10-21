@@ -30,6 +30,12 @@ return array(
 		'controller' => 'storage',
 		'action' 	 => 'profile',
 	),
+    
+    	// добавление файла
+	'smartstorage/addf' => array(
+		'controller' => 'storage',
+		'action' 	 => 'addf',
+	),
 
 	//TEST
 	'smartstorage/test' => array(
