@@ -36,6 +36,18 @@ return array(
 		'controller' => 'storage',
 		'action' 	 => 'addf',
 	),
+    
+        // добавление каталога
+	'smartstorage/addc' => array(
+		'controller' => 'storage',
+		'action' 	 => 'addc',
+	),
+    
+            // перейти на уровень назад
+	'smartstorage/back' => array(
+		'controller' => 'storage',
+		'action' 	 => 'back',
+	),
 
 	//TEST
 	'smartstorage/test' => array(

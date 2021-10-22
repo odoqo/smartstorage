@@ -11,11 +11,12 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <form action="http://localhost/smartstorage/addf/" method="POST" enctype="multipart/form-data">
+    <form action="http://localhost/smartstorage/profile/" method="POST" enctype="multipart/form-data">
         <nav class="navbar bg-info bg-opacity-25 shadow-sm">
             <h1 class="display-6 mx-3 text-primary"><i>Smart </i><i class="text-info">Storage</i></h1>
             <a class="btn btn-sm btn-danger mx-2" name="logout" href="http://localhost/smartstorage/logout/" type="button">Выход</a>
         </nav>
+        </form>
         <div class="container m-1">
 			
 			<div class="row mt-4">
@@ -35,9 +36,12 @@
 					<div class="list-group shadow">
 						<div class="list-group-item bg-light">
 						    <h5><span class="text-body badge bg-info bg-opacity-25"><!-- .$current_dir --></span></h5>
-                            <button type="button" class="btn btn-sm btn-outline-success border-2 m-1">Перейти на уровень выше</button>
+                            <form action="http://localhost/smartstorage/back/" method="POST" enctype="multipart/form-data">
+                                <button type="button" name="back" class="btn btn-sm btn-outline-success border-2 m-1">Перейти на уровень выше</button>
+                            </form>
 						</div>
-						<div class="list-group-item bg-light">
+                        <form action="http://localhost/smartstorage/addf/" method="POST" enctype="multipart/form-data">
+			<div class="list-group-item bg-light">
                             <input type="file" name="file" class="form-control form-control-sm border-dark m-1">
                             <div class="form-check">
 							    <input class="form-check-input" type="radio" name="file_rights" value="private" id="f1" checked>
@@ -61,6 +65,8 @@
                             </div>                     
                             <button type="submit" name="addf" class="btn btn-sm border-2 btn-outline-success m-1">Добавить файл</button>
                         </div>
+                            </form>
+                            <form action="http://localhost/smartstorage/addc/" method="POST" enctype="multipart/form-data">
                         <div class="list-group-item bg-light">
                             <input type="text" name="catalog" class="form-control border-dark m-1" placeholder="Назавание добавляемого каталога">
                             <div class="form-check">
@@ -78,13 +84,14 @@
                             <div class="collapse" id="collapse_catalog_protected">
                                 <select name="list_of_users[]" multiple="multiple" class="form-select form-select-sm m-1" aria-label=".form-select-sm example" placeholder="Список пользователей">
                                     <option selected value="<!-- .$user_now -->"><!-- .$user_now --></option>
-                                    <!-- list_users_cycle -->
+                                    <!-- list_users_cycle1 -->
                                     <option value="<!-- .$user -->"><!-- .$user --></option>
-                                    <!-- list_users_cycle_ends -->
+                                    <!-- list_users_cycle1_ends -->
                                 </select>
                             </div>
-                            <button type="submit" name="add_cat" class="btn btn-sm border-2 btn-outline-success m-1">Добавить каталог</button>
+                            <button type="submit" name="addc" class="btn btn-sm border-2 btn-outline-success m-1">Добавить каталог</button>
                         </div>
+                            </form>
 					</div>
                 </div>
 				<div class="col -3 ">
@@ -103,7 +110,7 @@
 			</div>
         </div>
         </div>
-    </form>
+    
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </html>

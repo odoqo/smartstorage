@@ -93,8 +93,8 @@ class Account extends Model
     {   
         $key = hash('sha256', $this->generateSalt()); 
              
-        setcookie('login', $this->login, time() + 60*5, '/');
-        setcookie('key', $key, time() + 60*5, '/');
+        setcookie('login', $this->login, time() + 60*60*8, '/');
+        setcookie('key', $key, time() + 60*60*8, '/');
 
         $setsFields = ['cookie' => $key];
         $this->db->updateFields('users', By::login($this->login), $setsFields);

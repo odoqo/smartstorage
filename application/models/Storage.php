@@ -26,11 +26,9 @@ class Storage extends Model {
     //добавление файла
     public function addFile($right, $users) {
 
-        //var_dump($_FILES);
-        //exit;
             $this->uploadFile($_SESSION['position'],$_FILES['file'],$right);
-            $data = $_SESSION['position'].'/'.$files.'[|||]';
-            if($right=='s'){
+            $data = $_SESSION['position'].'/'.$_FILES['file']['name'].'[|||]';
+            if($right=='protected'){
                 foreach ($users as $nameOfUser){
                     $data.=$nameOfUser.'[|]';
                 }
@@ -39,10 +37,40 @@ class Storage extends Model {
         
     }
     
+    //добавление файла
+    public function addCatalog($name,$right, $users) {
+        //добавление католога
+        if($name!=''){
+            $this->newCatalog($name,$_SESSION['position'].'/'.$name,$right);
+            $data=$_SESSION['position'].'/'.$name.'[|||]';
+             if($right=='protected'){
+                foreach ($users as $nameOfUser){
+                    $data.=$nameOfUser.'[|]';
+                }
+                file_put_contents('application\rightOfUsers/right.txt', PHP_EOL .$data, FILE_APPEND | LOCK_EX);
+            }
+        }
+           
+    }
+    
+    //добавление в базу
+     public function newCatalog(string $__name, string $__virtualPath, string $right)
+    {
+        $data = array(
+            'name'         => $__name,
+            'owner'        => $this->getName(),
+            'virtual_path' => $__virtualPath,
+            'right' => $right
+        );
+
+        $this->db->insertRow('cataloges', $data);
+    }
+    
+    //смена текущей позиции
     public function changePosition($newPos='') {     
            if(!isset($_SESSION['position'])) {
                 $_SESSION['position'] = $this->getName();
-            } else {
+            } elseif($newPos!='') {
                 $_SESSION['position'] = $_SESSION['position'].'/'.$newPos;
             }
     }

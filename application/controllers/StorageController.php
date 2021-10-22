@@ -21,6 +21,8 @@ class StorageController extends Controller
             //$dataArr['list_users_cycle'] = $this->model->getUsersList();
            // $this->view->generate($this->model->getDataArr);
             $dataArr['list_users_cycle'] = $this->model->getUsersList();
+            $dataArr['list_users_cycle1'] = $this->model->getUsersList();
+            $dataArr['current_dir'] = $_COOKIE['login'];
             $this->view->generate($dataArr);
         } else {
             $this->view->redirect('http://localhost/smartstorage/login/');
@@ -28,21 +30,22 @@ class StorageController extends Controller
        
     }
     
-        public function addfAction()
+    public function addfAction()
     {
-        //if ($this->model->authorized()) {
-           // $this->model->changePosition();
-          // var_dump($_POST);
-          // exit;
-            
             $this->model->addFile($_POST['file_rights'],$_POST['list_of_users']);
             $this->view->redirect('http://localhost/smartstorage/profile/');
-            //$this->view->generate();
-           // $this->view->redirect('http://localhost/smartstorage/profile/');
-      //  } else {
-       //     $this->view->redirect('http://localhost/smartstorage/login/');
-       // }
-       
+    }
+    
+    public function addcAction()
+    {
+            $this->model->addCatalog($_POST['catalog'],$_POST['catalog_rights'],$_POST['list_of_users']);
+            $this->view->redirect('http://localhost/smartstorage/profile/');
+    }
+    
+        public function backAction()
+    {
+            $this->model->addCatalog($_POST['catalog'],$_POST['catalog_rights'],$_POST['list_of_users']);
+            $this->view->redirect('http://localhost/smartstorage/profile/');
     }
 
 }
