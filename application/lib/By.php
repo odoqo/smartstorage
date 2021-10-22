@@ -23,6 +23,11 @@ class By
         return $this->values;
     }
 
+    public static function all()
+    {
+        return new static('all', []);
+    }
+
     public static function id(string $__id)
     {
         return new static('id', ['id' => $__id]);

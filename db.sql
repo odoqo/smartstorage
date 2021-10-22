@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `files` (
   `path` text NOT NULL,
   `virtual_path` text NOT NULL,
   `owner` text NOT NULL,
-  `rigths` text NOT NULL,
+  `rights` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
@@ -21,6 +21,6 @@ CREATE TABLE IF NOT EXISTS `cataloges` (
   `name` text NOT NULL,
   `virtual_path` text NOT NULL,
   `owner` text NOT NULL,
-  `rigths` text NOT NULL,
+  `rights` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;

@@ -31,9 +31,46 @@ return array(
 		'action' 	 => 'profile',
 	),
 
-	//TEST
+	//
+	'smartstorage/users' => array(
+		'controller' => 'storage',
+		'action' 	 => 'users',
+	),
+
+	//
+	'smartstorage/user' => array(
+		'controller' => 'storage',
+		'action' 	 => 'user',
+	),
+
+	//
+	'smartstorage/levelUp' => array(
+		'controller' => 'storage',
+		'action' 	 => 'levelUp',
+	),
+
+	//
+	'smartstorage/newFile' => array(
+		'controller' => 'storage',
+		'action' 	 => 'newFile',
+	),
+
+	//
+	'smartstorage/newCatalog' => array(
+		'controller' => 'storage',
+		'action' 	 => 'newCatalog',
+	),
+
+	//
+	'smartstorage/data' => array(
+		'controller' => 'storage',
+		'action' 	 => 'data',
+	),
+
+	//
 	'smartstorage/test' => array(
 		'controller' => 'test',
 		'action' 	 => 'test',
 	),
+
 );
