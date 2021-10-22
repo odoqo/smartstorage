@@ -18,7 +18,7 @@ class StorageController extends Controller
 
     public function userAction()
     {
-        
+         
     }
 
     public function usersAction()
