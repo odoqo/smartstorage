@@ -6,61 +6,63 @@ use application\core\Controller;
 
 class AccountController extends Controller {
 
-	public function loginAction() 
-	{
-		// проверка на авторизированного пользователя
-		if ($this->model->userLogged()) {
-			$this->view->redirect('http://localhost/smartstorage/profile/');
-		} 
-		
-		// проверка на наличие данных для входа
-		elseif (empty($_POST)) {
-			$this->view->generate();
-		} 
-		
-		// вход в аккаунт
-		else {
+    //действие для входа
+    public function loginAction() 
+    {
+            // проверка на авторизированного пользователя
+            if ($this->model->userLogged()) {
+                    $this->view->redirect('http://localhost/smartstorage/profile/');
+            } 
 
-			$status = $this->model->signIn();
-			
-			if ($status === 'success') {
-				$this->view->redirect('http://localhost/smartstorage/profile/');
-			}
+            // проверка на наличие данных для входа
+            elseif (empty($_POST)) {
+                    $this->view->generate();
+            } 
 
-			$error = ['error' => $status];
-			$this->view->generate($error);
-		}
-	}
-	
-	public function registerAction() 
-	{
-		// проверка на авторизированного пользователя
-		if ($this->model->userLogged()) {
-			$this->view->redirect('http://localhost/smartstorage/profile/');
-		} 
-		
-		// проверка на наличие данных для регистрации
-		elseif (empty($_POST)) {
-			$this->view->generate();
-		} 
-		
-		// регистрация аккаунта
-		else {
-			
-			$status = $this->model->signUp();
-			if ($status === 'success') {
-				$this->view->redirect('http://localhost/smartstorage/profile/');
-			}	
+            // вход в аккаунт
+            else {
 
-			$error = ['error' => $status];
-			$this->view->generate($error);
-		}	
-	}
+                $status = $this->model->signIn();
 
-	public function logoutAction()
-	{
-		$this->model->logout();
-		$this->view->redirect('http://localhost/smartstorage/');
-	}
+                if ($status === 'success') {
+                        $this->view->redirect('http://localhost/smartstorage/profile/');
+                }
 
+                $error = ['error' => $status];
+                $this->view->generate($error);
+            }
+    }
+
+    //действие для регистрации
+    public function registerAction() 
+    {
+            // проверка на авторизированного пользователя
+            if ($this->model->userLogged()) {
+                    $this->view->redirect('http://localhost/smartstorage/profile/');
+            } 
+
+            // проверка на наличие данных для регистрации
+            elseif (empty($_POST)) {
+                    $this->view->generate();
+            } 
+
+            // регистрация аккаунта
+            else {
+
+                $status = $this->model->signUp();
+                if ($status === 'success') {
+                        $this->view->redirect('http://localhost/smartstorage/profile/');
+                }	
+
+                $error = ['error' => $status];
+                $this->view->generate($error);
+            }	
+    }
+
+    //выход с основной страницы
+    public function logoutAction()
+    {
+            $this->model->logout();
+            $this->view->redirect('http://localhost/smartstorage/');
+    }
 }

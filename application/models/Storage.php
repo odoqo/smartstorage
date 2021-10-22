@@ -1,5 +1,7 @@
 <?php
 
+//модель основной страницы - smartstorage
+
 namespace application\models;
 
 use application\lib\Db;
@@ -8,7 +10,8 @@ use application\lib\By;
 
 class Storage extends Model {
     
-     public function authorized()
+    //проверка на авторизованность пользователя
+    public function authorized()
     {
         if (isset($_SESSION['auth']) && $_SESSION === true) {
             return true;
@@ -24,65 +27,67 @@ class Storage extends Model {
     }
     
     //добавление файла
-    public function addFile($right, $users) {
-
-            $this->uploadFile($_SESSION['position'],$_FILES['file'],$right);
-            $data = $_SESSION['position'].'/'.$_FILES['file']['name'].'[|||]';
-            if($right=='protected'){
-                foreach ($users as $nameOfUser){
-                    $data.=$nameOfUser.'[|]';
-                }
-                file_put_contents('application\rightOfUsers/right.txt', PHP_EOL .$data, FILE_APPEND | LOCK_EX);
+    public function addFile($right, $users) 
+    {
+        $this->uploadFile($_SESSION['position'], $_FILES['file'], $right);
+        $data = $_SESSION['position'].'/'.$_FILES['file']['name'].'[|||]';
+        if($right == 'protected'){
+            foreach ($users as $nameOfUser){
+                $data .= $nameOfUser.'[|]';
             }
-        
+            file_put_contents('application\rightOfUsers/right.txt', PHP_EOL .$data, FILE_APPEND | LOCK_EX);
+        }       
     }
     
-    //добавление файла
-    public function addCatalog($name,$right, $users) {
-        //добавление католога
-        if($name!=''){
-            $this->newCatalog($name,$_SESSION['position'].'/'.$name,$right);
+    //добавление католога
+    public function addCatalog($name,$right, $users) 
+    {
+        if($name != ''){
+            $this->newCatalog($name, $_SESSION['position'].'/'.$name, $right);
             $data=$_SESSION['position'].'/'.$name.'[|||]';
-             if($right=='protected'){
+             if($right == 'protected'){
                 foreach ($users as $nameOfUser){
-                    $data.=$nameOfUser.'[|]';
+                    $data .= $nameOfUser.'[|]';
                 }
                 file_put_contents('application\rightOfUsers/right.txt', PHP_EOL .$data, FILE_APPEND | LOCK_EX);
             }
-        }
-           
+        }          
     }
     
-    //добавление в базу
-     public function newCatalog(string $__name, string $__virtualPath, string $right)
+    //добавление в базу каталога
+    public function newCatalog(string $__name, string $__virtualPath, string $right)
     {
         $data = array(
             'name'         => $__name,
             'owner'        => $this->getName(),
             'virtual_path' => $__virtualPath,
-            'right' => $right
+            'right'        => $right
         );
 
         $this->db->insertRow('cataloges', $data);
     }
     
-    //смена текущей позиции
-    public function changePosition($newPos='') {     
-           if(!isset($_SESSION['position'])) {
-                $_SESSION['position'] = $this->getName();
-            } elseif($newPos!='') {
-                $_SESSION['position'] = $_SESSION['position'].'/'.$newPos;
-            }
+    //смена текущего положения на следующее
+    public function changePosition($newPos='') 
+    {     
+        if(!isset($_SESSION['position'])) {
+            $_SESSION['position'] = $this->getName();
+        } elseif($newPos != '') {
+            $_SESSION['position'] = $_SESSION['position'].'/'.$newPos;
+        }
+    }
+    
+    //смена текущего положения на предыдущее
+    public function backPosition($newPos='') 
+    {
+        if($_SESSION['position']!=$user->getName()){
+            $position             = strrpos($_SESSION['position'], '/');
+            $_SESSION['position'] = substr($_SESSION['position'],0, $position);
+        }
     }
     
      public function uploadFile(string $__virtualPath, array $__upload, string $right)
     {
-        /**
-         * Code authorization
-         */
-         //var_dump($_FILES);
-        //exit;
-
         $tmpName = $__upload['tmp_name']; 
         $name    = $__upload['name'];
         $path    = 'application/FILES/'. time() . $name;

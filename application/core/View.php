@@ -1,5 +1,7 @@
 <?php
 
+//основное отображение страниц
+
 namespace application\core;
 
 use application\lib\Template;
@@ -15,6 +17,8 @@ class View
 		$this->path  = $route['controller'].'/'.$route['action'];
 	}
 
+        //вывод основной страницы по шаблону $templateCode 
+        //в него вноситься $__dataArray
 	public function generate($__dataArray=array()) 
 	{
 		$path = 'application/views/'.$this->path.'.html';
@@ -26,6 +30,7 @@ class View
 		}
 	}
 
+        //переадресация на $url
 	public function redirect($url) 
 	{
 		header('location: '.$url);

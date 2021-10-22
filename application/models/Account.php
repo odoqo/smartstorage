@@ -1,5 +1,7 @@
 <?php
-
+/*
+ * функции для действий на странице входа/регистрации
+ */
 namespace application\models;
 
 use application\lib\Db;
@@ -19,7 +21,8 @@ class Account extends Model
         $this->password = $_POST['password'] ?? '';
     }
 
-	public function signUp() 
+    //регистрации
+    public function signUp() 
     {
         if (!$this->checklogin() || !$this->checkPassword()) {
             return 'error: unvalid input data';
@@ -40,6 +43,7 @@ class Account extends Model
         return 'success'; 
     }
 
+    //вход
     public function signIn()
     {
         if (!$this->checklogin() || !$this->checkPassword()) {
@@ -61,15 +65,16 @@ class Account extends Model
         return 'success';
     }
 
+    //ds[jl
     public function logout()
-    {
-        
+    {        
         setcookie('login', '', time() - 60*5, '/');
         setcookie('key', '', time() - 60*5, '/');
         unset($_SESSION);
         session_destroy();
     }
 
+    //проверк установленных куки(пользователь уже вошел или нет)
     public function userLogged() 
     {
         if (isset($_SESSION['auth']) && $_SESSION['auth'] === true) {
@@ -83,12 +88,14 @@ class Account extends Model
         }
     }
 
+    //аунтификация
     private function authentication()
     {
         $hash = hash('sha256', $this->password);
         return $this->db->selectRow('users', By::loginAndPassword($this->login,  $hash));
     }
 
+    //установка куки
     private function setCockie() 
     {   
         $key = hash('sha256', $this->generateSalt()); 
@@ -100,17 +107,19 @@ class Account extends Model
         $this->db->updateFields('users', By::login($this->login), $setsFields);
     }
 
+    //для безопасности - генерируем случайную строку
     private function generateSalt()
-	{
-		$salt = '';
-		$saltLength = 8;
-		for($i = 0; $i < $saltLength; ++$i) {
-			$salt .= chr(mt_rand(33, 126));
-		}
+    {
+            $salt = '';
+            $saltLength = 8;
+            for($i = 0; $i < $saltLength; ++$i) {
+            $salt .= chr(mt_rand(33, 126));
+            }
 
-		return $salt;
-	}
+            return $salt;
+    }
 
+    //добавление пользователя в базу    
     private function addUser() 
     {
         $hash = hash('sha256', $this->password);
@@ -122,17 +131,20 @@ class Account extends Model
 
         return $this->db->insertRow('users', $dataArr);
     }
-
+    
+    //проверка есть ли пользователь с таким логином
     private function userExist()    
     {
        return $this->db->selectRow('users', By::login($this->login)) ?: false;
     }
 
+    //проверка есть ли пользователь с таким логином
     private function userNotExist()
     {
         return !$this->userExist();
     }
 
+    //проверк логина
     private function checklogin()
     {
         // format
@@ -140,6 +152,7 @@ class Account extends Model
         return preg_match($regexp, $this->login);
     }
 
+    //проверк пароля
     private function checkPassword()
     {
         // format

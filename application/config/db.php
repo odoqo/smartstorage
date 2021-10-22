@@ -1,5 +1,6 @@
 <?php
 
+//свойства базы
 return [
 	'host' => 'localhost',
 	'name' => 'timp',
