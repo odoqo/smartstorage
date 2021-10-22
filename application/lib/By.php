@@ -56,4 +56,9 @@ class By
         return new static('vPathAndOwner', $values); 
     }
     
+    public static function vPath(string $__path)
+    {
+        $values = ['vPath' => $__path];
+        return new static('vPathAndOwner', $values); 
+    }
 }

@@ -131,6 +131,10 @@ class Db
 
 				case 'vPathAndOwner' :
 					$path  = $__by->getValue()['vPath'];
+					return "SELECT $fields FROM `$__table` WHERE virtual_path='{$path}'";	
+
+				case 'vPathAndOwner' :
+					$path  = $__by->getValue()['vPath'];
 					$owner = $__by->getValue()['owner'];
 					return "SELECT $fields FROM `$__table` WHERE owner='{$owner}' AND virtual_path='{$path}'";
 

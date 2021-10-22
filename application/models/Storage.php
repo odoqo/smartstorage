@@ -35,17 +35,16 @@ class Storage extends Model {
 
     private function getDataCurrentDir()
     {
-        $login      = $_COOKIE['login'];
         $currentDir = $_SESSION['currentDir'] ?? $_COOKIE['login'];
         
-        $fileInfo    = ['id', 'name', 'path', 'rights'];
-        $catalogInfo = ['id', 'name', 'rights'];
+        $fileInfo    = ['id', 'name', 'path', 'owner', 'rights'];
+        $catalogInfo = ['id', 'name', 'owner', 'rights'];
         
-        
-        $filesCurDir     = $this->db->selectRows('files', By::vPathAndOwner($currentDir, $login), $fileInfo);
-        $catalogesCurDir = $this->db->selectRows('files', By::vPathAndOwner($currentDir, $login), $catalogInfo);
+        $filesCurDir     = $this->db->selectRows('files', By::vPath($currentDir), $fileInfo);
+        $catalogesCurDir = $this->db->selectRows('cataloges', By::vPath($currentDir), $catalogInfo);
              
         
+
 
     }
 
