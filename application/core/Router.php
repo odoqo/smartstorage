@@ -39,21 +39,19 @@ class Router
     public function run()
     {
         if ($this->match()) {
+        
             $class = 'application\controllers\\'.ucfirst($this->params['controller']).'Controller';
             if (class_exists($class)) {
+        
                 $action = $this->params['action'].'Action';
                 if (method_exists($class, $action)) {
+                    
                     $controller = new $class($this->params);
                     $controller->$action();
-                } else {
-                    View::errorCode(404);
                 }
-            } else {
-                View::errorCode(404);
             }
-        } else {
-            View::errorCode(404);
         }
-    }
 
+        View::errorCode(404);
+    }
 }

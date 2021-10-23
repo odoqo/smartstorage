@@ -5,7 +5,7 @@ namespace application\lib;
 class Db
 	{
 		// database manager
-		private $link;
+		public $link;
 
 		public function __construct()
 		{
@@ -132,7 +132,7 @@ class Db
 					$login = $__by->getValue()['login'];
 					return "SELECT $fields FROM `$__table` WHERE login!='{$login}'";
 
-				case 'vPathAndOwner' :
+				case 'vPath' :
 					$path  = $__by->getValue()['vPath'];
 					return "SELECT $fields FROM `$__table` WHERE virtual_path='{$path}'";	
 
@@ -140,6 +140,12 @@ class Db
 					$path  = $__by->getValue()['vPath'];
 					$owner = $__by->getValue()['owner'];
 					return "SELECT $fields FROM `$__table` WHERE owner='{$owner}' AND virtual_path='{$path}'";
+					
+				case 'idAndOwner' :
+					$id    = $__by->getValue()['id'];
+					$owner = $__by->getValue()['owner'];
+					return "SELECT $fields FROM `$__table` WHERE owner='{$owner}' AND id='{$id}'";
+
 
 				default :
 					return false;

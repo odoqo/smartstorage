@@ -23,9 +23,6 @@ class View
 			echo Template::build($templateCode, $__dataArray);
 			exit;
 		} else {
-			
-			//$templateCode = file_get_contents('application/views/storage/profile.html');
-			//echo Template::build($templateCode, $__dataArray);
 			View::errorCode(404);
 		}
 	}

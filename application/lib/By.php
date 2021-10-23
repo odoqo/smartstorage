@@ -64,6 +64,11 @@ class By
     public static function vPath(string $__path)
     {
         $values = ['vPath' => $__path];
-        return new static('vPathAndOwner', $values); 
+        return new static('vPath', $values); 
+    }
+
+    public static function idAndOwner(string $__id, string $__owner)
+    {
+        return new static('idAndOwner', ['id' => $__id, 'owner' => $__owner]);
     }
 }

@@ -45,11 +45,10 @@
                                 <label class="form-check-label" for="f3">Protected</label>
                             </div>
                             <div class="collapse" id="collapse_file_protected">
-                                <select name="list_of_users[]" multiple="multiple" class="form-select form-select-sm m-1" aria-label=".form-select-sm example" placeholder="Список пользователей">
-                                    <option selected value="<!-- .$user_now -->"><!-- .$user_now --></option>
+                                <select name="users_list[]" multiple="multiple" class="form-select form-select-sm m-1" aria-label=".form-select-sm example" placeholder="Список пользователей">
                                     <!-- list_users_cycle -->
                                     <option value="<!-- .$user -->"><!-- .$user --></option>
-                                        <!-- list_users_cycle_ends -->
+                                    <!-- list_users_cycle_ends -->
                                 </select>
                             </div>                     
                             <button type="submit" name="add_file" class="btn btn-sm border-2 btn-outline-success m-1">Добавить файл</button>
@@ -75,7 +74,7 @@
                             <label class="form-check-label" for="c3">Protected</label>
                             </div>
                             <div class="collapse" id="collapse_catalog_protected">
-                                <select name="list_of_users[]" multiple="multiple" class="form-select form-select-sm m-1" aria-label=".form-select-sm example" placeholder="Список пользователей">
+                                <select name="users_list[]" multiple="multiple" class="form-select form-select-sm m-1" aria-label=".form-select-sm example" placeholder="Список пользователей">
                                     <option selected value="<!-- .$user_now -->"><!-- .$user_now --></option>
                                     <!-- list_users_cycle -->
                                     <option value="<!-- .$user -->"><!-- .$user --></option>
@@ -93,35 +92,64 @@
             
                 
 
-                <!-- форма для взаимодействия с данными в текщем каталоге -->
-                <form action="http://localhost/smartstorage/data/" method="post">
                     
                     <nav class="nav nav-pills flex-column flex-sm-row mb-3">
-                        <a class="flex-sm-fill text-sm-center nav-link active disabled" href="#"><!-- .$location --></a>
-                        <a class="flex-sm-fill text-sm-center nav-link" href="http://localhost/smartstorage/users/">Список пользователей</a>
+                        <a class="flex-sm-fill text-sm-center nav-link border bg-light disabled" href="#"><!-- .$location --></a>
+                        <a class="flex-sm-fill text-sm-center nav-link border" href="http://localhost/smartstorage/users/">Список пользователей</a>
                     </nav>     
                     
                         <div class="list-group">    
                               
                             <ul class="list-group ">
-                                <li class="list-group-item shadow">
-                                    <a class="flex-sm-fill text-lg nav-link" href="http://localhost/smartstorage/levelUp/">/..</a>
+                                <li class="list-group-item shadow p-0">
+                                    <a class="h5 nav-link" href="http://localhost/smartstorage/levelUp/">/..</a>
                                 </li>
-                                <!-- data_cycle -->
+                                <!-- cataloges_cycle -->
                                 <li class="list-group-item shadow">
-                                    <h5><!-- .$name --></h5>
-                                    <button type="submit" name="<!-- .$name_action -->" value="<!-- .$id_for_action -->" class=" btn btn-sm btn-outline-success border-2 m-1">
-                                        <!-- .$view_action -->
-                                    </button>
-                                    <button type="submit" name="delete" value="<!-- .$id_for_delete -->" class="btn btn-sm btn-outline-danger border-2 m-1" >
-                                        Удалить
-                                    </button>
+                                    
+                                    <h4><!-- .$name -->
+                                        <i class="h6 text-secondary"><!-- .$rights --></i>
+                                    
+                                    </h4>
+                                    <div class="btn-group" role="group" aria-label="">
+                                    
+                                    <!-- формы для взаимодействия с данными в текщем каталоге -->
+                                    <form action="http://localhost/smartstorage/changeLocation/" method="post">
+                                        <button type="submit" name="go" value="<!-- .$id_for_action -->" class=" btn btn-sm btn-outline-success border-2 m-1">
+                                            Перейти
+                                        </button>
+                                    </form>
+                                    <form action="http://localhost/smartstorage/deleteCatalog/" method="post">
+                                        <button type="submit" name="delete_catalog" value="<!-- .$id_for_delete -->" class="btn btn-sm btn-outline-danger border-2 m-1" >
+                                            Удалить
+                                        </button>
+                                    </form>
+                                    </div>
                                 </li>
-                                <!-- data_cycle_ends -->
+                                <!-- cataloges_cycle_ends -->
+                                <!-- files_cycle -->
+                                <li class="list-group-item shadow">
+                                    <h4><!-- .$name -->
+                                        <i class="h6 text-secondary"><!-- .$rights --></i>
+                                    </h4>
+                                    
+                                    <div class="btn-group" role="group" aria-label="">
+                                    <form action="http://localhost/smartstorage/download/" method="post">
+                                        <button type="submit" name="download" value="<!-- .$id_for_action -->" class=" btn btn-sm btn-outline-success border-2 m-1">
+                                            Загрузить
+                                        </button>
+                                    </form>
+                                    <form action="http://localhost/smartstorage/deleteFile/" method="post">
+                                        <button type="submit" name="delete_file" value="<!-- .$id_for_delete -->" class="btn btn-sm btn-outline-danger border-2 m-1" >
+                                            Удалить
+                                        </button>
+                                    </form>
+                                    </div>
+                                </li>
+                                <!-- files_cycle_ends -->
                             </ul>
                         </div>
-                </form>
-            
+         
             </div>
         </div>            
     </div>

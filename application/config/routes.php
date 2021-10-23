@@ -2,7 +2,7 @@
 
 return array(
 
-	//главная страница
+	// главная страница
 	'smartstorage' => array(
 		'controller' => 'account',
 		'action' 	 => 'login',
@@ -20,57 +20,57 @@ return array(
 		'action' 	 => 'register',
 	),
 
+    // профиль
+    'smartstorage/profile' => array(
+		'controller' => 'storage',
+		'action'     => 'profile',
+	),
+
 	// выход из аккаунта
 	'smartstorage/logout' => array(
 		'controller' => 'account',
 		'action' 	 => 'logout',
 	),
-	// профиль
-	'smartstorage/profile' => array(
-		'controller' => 'storage',
-		'action' 	 => 'profile',
-	),
 
-	//
-	'smartstorage/users' => array(
-		'controller' => 'storage',
-		'action' 	 => 'users',
-	),
-
-	//
-	'smartstorage/user' => array(
-		'controller' => 'storage',
-		'action' 	 => 'user',
-	),
-
-	//
-	'smartstorage/levelUp' => array(
-		'controller' => 'storage',
-		'action' 	 => 'levelUp',
-	),
-
-	//
+	// добавление файла
 	'smartstorage/newFile' => array(
 		'controller' => 'storage',
-		'action' 	 => 'newFile',
+		'action'     => 'newFile',
 	),
-
-	//
+    
+	// добавление каталога
 	'smartstorage/newCatalog' => array(
 		'controller' => 'storage',
-		'action' 	 => 'newCatalog',
+		'action'     => 'newCatalog',
 	),
-
-	//
-	'smartstorage/data' => array(
+    
+    // перейти на уровень назад
+	'smartstorage/levelUp' => array(
 		'controller' => 'storage',
-		'action' 	 => 'data',
+		'action'     => 'levelUp',
 	),
-
-	//
-	'smartstorage/test' => array(
-		'controller' => 'test',
-		'action' 	 => 'test',
+    
+    // удаление файла
+	'smartstorage/deleteFile' => array(
+		'controller' => 'storage',
+		'action'     => 'deleteFile',
 	),
-
+    
+    // удаление каталога
+	'smartstorage/deleteCatalog' => array(
+		'controller' => 'storage',
+		'action'     => 'deleteCatalog',
+	),
+    
+	//переход в каталог
+	'smartstorage/changeLocation' => array(
+		'controller' => 'storage',
+		'action'     => 'changeLocation',
+	),
+    
+    // добавление файла
+	'smartstorage/downloadFile' => array(
+		'controller' => 'storage',
+		'action'     => 'downloadFile',
+	),      
 );
