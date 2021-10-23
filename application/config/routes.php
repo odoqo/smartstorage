@@ -33,6 +33,7 @@ return array(
 		'controller' => 'account',
 		'action'     => 'logout',
 	),
+    
 	// профиль
 	'smartstorage/profile' => array(
 		'controller' => 'storage',
@@ -40,21 +41,51 @@ return array(
 	),
     
     	// добавление файла
-	'smartstorage/addf' => array(
+	'smartstorage/newFile' => array(
 		'controller' => 'storage',
-		'action'     => 'addf',
+		'action'     => 'newFile',
 	),
     
         // добавление каталога
-	'smartstorage/addc' => array(
+	'smartstorage/newCatalog' => array(
 		'controller' => 'storage',
-		'action'     => 'addc',
+		'action'     => 'newCatalog',
 	),
     
-            // перейти на уровень назад
+        // перейти на уровень назад
 	'smartstorage/back' => array(
 		'controller' => 'storage',
 		'action'     => 'back',
+	),
+    
+        // удаление файла
+	'smartstorage/deleteFile' => array(
+		'controller' => 'storage',
+		'action'     => 'deleteFile',
+	),
+    
+         // удаление каталога
+	'smartstorage/deleteCatalog' => array(
+		'controller' => 'storage',
+		'action'     => 'deleteCatalog',
+	),
+    
+        //переход в каталог
+	'smartstorage/changeCatalog' => array(
+		'controller' => 'storage',
+		'action'     => 'changeCatalog',
+	),
+    
+        // добавление файла
+	'smartstorage/downloadFile' => array(
+		'controller' => 'storage',
+		'action'     => 'downloadFile',
+	),
+    
+         // профиль
+	'smartstorage/users' => array(
+		'controller' => 'storage',
+		'action'     => 'users',
 	),
 
 	//TEST

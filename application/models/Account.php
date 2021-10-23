@@ -39,6 +39,7 @@ class Account extends Model
         $this->setCockie();
 
         $_SESSION['auth'] = true;
+        $_SESSION['location'] = $this->login;
 
         return 'success'; 
     }
@@ -61,6 +62,7 @@ class Account extends Model
         $this->setCockie();
 
         $_SESSION['auth'] = true;
+        $_SESSION['location'] = $this->login;
 
         return 'success';
     }

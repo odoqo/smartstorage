@@ -18,14 +18,14 @@ class Db
 		{	
 			$query 	= $this->createSelect($__table, $__by, $__fields);
 			$result = $this->makeQuery($query);
-			return $result ? $result->fetch_assoc() : false;
+			return $result ? $result->fetch_assoc() : [];
 		}
 
 		public function selectRows(string $__table, By $__by, array $__fields=[])
 		{	
 			$query 	= $this->createSelect($__table, $__by, $__fields);
-			$result = $this->makeQuery($query);
-			return $result ? $result->fetch_all() : false;
+                        $result = $this->makeQuery($query);
+			return $result ? $result->fetch_all() : [];
 		}
 
 		public function insertRow(string $__table, array $__data)
@@ -103,6 +103,9 @@ class Db
 
 			switch ($__by->getMechanism()) {
 			
+				case 'all' :
+					return "SELECT $fields FROM `$__table`";
+
 				// by id
 				case 'id':
 					$id = $__by->getValue()['id'];
@@ -131,11 +134,15 @@ class Db
 
 				case 'vPathAndOwner' :
 					$path  = $__by->getValue()['vPath'];
+					return "SELECT $fields FROM `$__table` WHERE virtual_path='{$path}'";	
+
+				case 'vPathAndOwner' :
+					$path  = $__by->getValue()['vPath'];
 					$owner = $__by->getValue()['owner'];
 					return "SELECT $fields FROM `$__table` WHERE owner='{$owner}' AND virtual_path='{$path}'";
 
 				default :
-					return "SELECT $fields FROM `$__table`";
+					return false;
 				}
 
 		}
