@@ -16,6 +16,27 @@ class StorageController extends Controller
         }
     }
 
+    //добавление файла
+    public function newFileAction()
+    {
+        $this->model->addFile();
+        $this->view->redirect('http://localhost/smartstorage/profile/');
+    }
+        
+    //добавление каталога
+    public function newCatalogAction()
+    {
+        $this->model->addCatalog();
+        $this->view->redirect('http://localhost/smartstorage/profile/');
+    }
+    
+    //возвращение на уровень назад
+    public function levelUpAction()
+    {
+            $this->model->levelUp();
+            $this->view->redirect('http://localhost/smartstorage/profile/');
+    }
+
     public function userAction()
     {
          
