@@ -3,3 +3,5 @@
 /public/scripts
 /application/controllers/TestController.php
 /application/models/Test.php
+/application/data
+/application/rights
