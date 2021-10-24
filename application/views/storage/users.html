@@ -67,6 +67,13 @@
                                         Перейти
                                     </button>
                                 </form>
+                                <!-- RootVar.$isAdmin=1 -->
+                                <form action="http://localhost/smartstorage/users/deleteCatalog/" method="post">
+                                    <button type="submit" name="delete_catalog" value="<!-- .$id_for_delete -->" class="btn btn-sm btn-outline-danger border-2 m-1">
+                                        Удалить
+                                    </button>
+                                </form>
+                                <!-- RootVar.$isAdmin_ends -->
                                 </div>
                             </li>
                             <!-- cataloges_cycle_ends -->
@@ -78,10 +85,17 @@
                                 
                                 <div class="btn-group" role="group" aria-label="">
                                 <form action="http://localhost/smartstorage/users/downloadFile/" method="post">
-                                    <button type="submit" name="download" value="<!-- .$id_for_action -->" class=" btn btn-sm btn-outline-success border-2 m-1">
+                                    <button type="submit" name="download" value="<!-- .$id_for_delete -->" class=" btn btn-sm btn-outline-success border-2 m-1">
                                         Загрузить
                                     </button>
                                 </form>
+                                <!-- RootVar.$isAdmin=1 -->
+                                <form action="http://localhost/smartstorage/users/deleteFile/" method="post">
+                                    <button type="submit" name="delete_file" value="<!-- .$id_for_delete -->" class="btn btn-sm btn-outline-danger border-2 m-1" >
+                                        Удалить
+                                    </button>
+                                </form>
+                                <!-- RootVar.$isAdmin_ends -->
                                 </div>
                             </li>
                             <!-- files_cycle_ends -->

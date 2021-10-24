@@ -111,6 +111,18 @@ return array(
 		'action'     => 'downloadFile',
 		'page'		 => 'users'
 	),
+    
+    	'smartstorage/users/deleteFile' => array(
+		'controller' => 'storage',
+		'action'     => 'deleteFile',
+		'page'		 => 'users'
+	),
+    
+        'smartstorage/users/deleteCatalog' => array(
+		'controller' => 'storage',
+		'action'     => 'deleteCatalog',
+		'page'		 => 'users'
+	),
 	
 	
 	'smartstorage/test' => array(

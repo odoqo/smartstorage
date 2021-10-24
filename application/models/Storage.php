@@ -12,6 +12,7 @@ class Storage extends Model {
     private $location;
     private $login;
     private $csv;
+    private $isAdmin;
 
     public function __construct()
     {
@@ -19,6 +20,7 @@ class Storage extends Model {
         $this->login    = $_SESSION['login'] ?? $_COOKIE['login'] ?? false;
         $this->location = $_SESSION['location'] ?? $this->login;
         $this->csv      = new CSV('application\rights\rights.csv');
+        $this->isAdmin    = $this->db->selectRow('users', By::login($this->login))['isAdmin'];
     }
 
     /**
@@ -66,6 +68,10 @@ class Storage extends Model {
      */
     public function availableToDelete()
     {
+        if($this->isAdmin == 1) {
+            return true;
+        }
+        
         if (isset($_POST['delete_file'])) {
             $fileId = $_POST['delete_file'];
             return $this->db->selectRow('files', By::idAndOwner($fileId, $this->login));
@@ -86,12 +92,15 @@ class Storage extends Model {
      */
     public function availableToDownload()
     {
+        if($this->isAdmin == 1) {
+            return true;
+        }
         $fileId = $_POST['download'] ?? '';
         $file   = $this->db->selectRow('files', By::id($fileId));
         
         $isOwnerFile   = $file['owner'] == $this->login;
         $isPublicFile  = $file['rights'] == 'public';
-        $fileAvailable = $this->csv->readRow($file['virtual_path']);
+        $fileAvailable = in_array($this->login,$this->csv->readRow($file['virtual_path']));
         
         return $isOwnerFile || $isPublicFile || $fileAvailable;
     }
@@ -103,6 +112,9 @@ class Storage extends Model {
      */
     public function availableForViewing()
     {
+        if($this->isAdmin == 1) {
+            return true;
+        }
         // для перехода в хранилище выбранного пользователя
         if (!empty($_POST['user'])) {
             return true; // смотреть можно любое хранилище
@@ -115,7 +127,7 @@ class Storage extends Model {
         
             $isOwnerCatalog   = $catalog['owner'] === $this->login;
             $isPublicCatalog  = $catalog['rights'] === 'public';
-            $catalogAvailable = $this->csv->readRow($catalog['virtual_path']);
+            $catalogAvailable = in_array($this->login,$this->csv->readRow($catalog['virtual_path']));
     
             return  $isOwnerCatalog || $isPublicCatalog || $catalogAvailable;
         }
@@ -163,6 +175,7 @@ class Storage extends Model {
     public function getUsersData()
     {
         $dataArray['cataloges_cycle'] = $this->getLocalCataloges();
+        $dataArray['isAdmin']         = $this->isAdmin;
         $dataArray['files_cycle']     = $this->getLocalFiles();      
         $dataArray['users_cycle']     = $this->getUsersList(); 
         $dataArray['location']        = $this->location;    
@@ -382,6 +395,7 @@ class Storage extends Model {
             header('Content-Length: ' . filesize($path));
             
             readfile($path);
+            exit;
         }
     }
 
