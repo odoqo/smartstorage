@@ -2,6 +2,11 @@
 
 namespace application\lib;
 
+/**
+ * Вспомогательный класс для Db. Объект хранит способ поиска элемента в базе.
+ * 
+ * @author odoqo 
+ */
 class By
 {
     private string $mechanism;
@@ -55,16 +60,28 @@ class By
         return new static('loginAndPassword', $values);
     }
 
-    public static function vPathAndOwner(string $__path, string $__owner)
+    public static function locationAndOwner(string $__location, string $__owner)
     {
-        $values = ['vPath' => $__path, 'owner' => $__owner];
-        return new static('vPathAndOwner', $values); 
+        $values = ['location' => $__location, 'owner' => $__owner];
+        return new static('locationAndOwner', $values); 
+    }
+
+    public static function nameAndLocation(string $__name, string $__location)
+    {
+        $values = ['location' => $__location, 'name' => $__name];
+        return new static('nameAndLocation', $values); 
     }
     
-    public static function vPath(string $__path)
+    public static function location(string $__location)
     {
-        $values = ['vPath' => $__path];
-        return new static('vPath', $values); 
+        $values = ['location' => $__location];
+        return new static('location', $values); 
+    }
+
+    public static function virtualPath(string $__virtualPath)
+    {
+        $values = ['virtualPath' => $__virtualPath];
+        return new static('virtualPath', $values); 
     }
 
     public static function idAndOwner(string $__id, string $__owner)

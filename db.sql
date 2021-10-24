@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS `files` (
   `name` text NOT NULL,
   `path` text NOT NULL,
   `virtual_path` text NOT NULL,
+  `location` text NOT NULL,
   `owner` text NOT NULL,
   `rights` text NOT NULL,
   PRIMARY KEY (`id`)
@@ -20,6 +21,7 @@ CREATE TABLE IF NOT EXISTS `cataloges` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` text NOT NULL,
   `virtual_path` text NOT NULL,
+  `location` text NOT NULL,
   `owner` text NOT NULL,
   `rights` text NOT NULL,
   PRIMARY KEY (`id`)

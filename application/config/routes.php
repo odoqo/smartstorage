@@ -20,57 +20,101 @@ return array(
 		'action' 	 => 'register',
 	),
 
-    // профиль
-    'smartstorage/profile' => array(
-		'controller' => 'storage',
-		'action'     => 'profile',
-	),
-
 	// выход из аккаунта
 	'smartstorage/logout' => array(
 		'controller' => 'account',
 		'action' 	 => 'logout',
 	),
 
+    // профиль
+    'smartstorage/profile' => array(
+		'controller' => 'storage',
+		'action'     => 'profile',
+		'page'		 => 'profile'
+	),
+
+	// возвращение 
+	'smartstorage/home' => array(
+		'controller' => 'storage',
+		'action' 	 => 'home',
+	),
+
 	// добавление файла
-	'smartstorage/newFile' => array(
+	'smartstorage/profile/newFile' => array(
 		'controller' => 'storage',
 		'action'     => 'newFile',
+		'page'		 => 'profile'
 	),
     
 	// добавление каталога
-	'smartstorage/newCatalog' => array(
+	'smartstorage/profile/newCatalog' => array(
 		'controller' => 'storage',
 		'action'     => 'newCatalog',
+		'page'		 => 'profile'
 	),
     
     // перейти на уровень назад
-	'smartstorage/levelUp' => array(
+	'smartstorage/profile/levelUp' => array(
 		'controller' => 'storage',
 		'action'     => 'levelUp',
+		'page'		 => 'profile'
 	),
     
     // удаление файла
-	'smartstorage/deleteFile' => array(
+	'smartstorage/profile/deleteFile' => array(
 		'controller' => 'storage',
 		'action'     => 'deleteFile',
+		'page'		 => 'profile'
 	),
     
     // удаление каталога
-	'smartstorage/deleteCatalog' => array(
+	'smartstorage/profile/deleteCatalog' => array(
 		'controller' => 'storage',
 		'action'     => 'deleteCatalog',
+		'page'		 => 'profile'
 	),
     
 	//переход в каталог
-	'smartstorage/changeLocation' => array(
+	'smartstorage/profile/changeLocation' => array(
 		'controller' => 'storage',
 		'action'     => 'changeLocation',
+		'page'		 => 'profile'
 	),
     
     // добавление файла
-	'smartstorage/downloadFile' => array(
+	'smartstorage/profile/downloadFile' => array(
 		'controller' => 'storage',
 		'action'     => 'downloadFile',
+		'page'		 => 'profile'
+	),     
+
+	'smartstorage/users' => array(
+		'controller' => 'storage',
+		'action'     => 'users',
+		'page'		 => 'users'
 	),      
+
+	'smartstorage/users/levelUp' => array(
+		'controller' => 'storage',
+		'action'     => 'levelUp',
+		'page'		 => 'users'
+	),
+	
+	'smartstorage/users/changeLocation' => array(
+		'controller' => 'storage',
+		'action'     => 'changeLocation',
+		'page'		 => 'users'
+	),
+	
+	'smartstorage/users/downloadFile' => array(
+		'controller' => 'storage',
+		'action'     => 'downloadFile',
+		'page'		 => 'users'
+	),
+	
+	
+	'smartstorage/test' => array(
+		'controller' => 'test',
+		'action'     => 'test',
+	),     
 );

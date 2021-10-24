@@ -2,14 +2,18 @@
 
 namespace application\lib;
 
+use Exception;
+
+/**
+ * Менеджер по работе с базой данных MySQL
+ * @author odoqo
+ */
 class Db
 	{
-		// database manager
 		public $link;
 
 		public function __construct()
 		{
-			//connect to database
 			$config = require 'application/config/db.php';
 			$this->link = mysqli_connect($config['host'], $config['user'], $config['password'], $config['name']);
 		}
@@ -49,6 +53,12 @@ class Db
 			return $result;
 		}
 
+		private function makeQuery(string $__query)
+		{
+			$result = mysqli_query($this->link, $__query);
+			return $result;
+		}
+
 		private function createUpdate(string $__table, By $__by, array $__sets)
 		{
 			$fields='';
@@ -60,23 +70,19 @@ class Db
 			
 			switch ($__by->getMechanism()) {
 			
-				// by id
 				case 'id':
 					$id = $__by->getValue()['id'];
 					return "UPDATE `$__table` SET $fields WHERE id='{$id}'";
 				
-				// by username
 				case 'login':
 					$login = $__by->getValue()['login'];
 					return "UPDATE `$__table` SET $fields WHERE login='{$login}'";
 
-				// by login and cookie
 				case 'loginAndCookie':
 					$login  = $__by->getValue()['login'];
 					$cookie = $__by->getValue()['cookie'];
 					return "UPDATE `$__table` SET $fields WHERE login='{$login}' AND cookie='{$cookie}'";
 
-				// by login and password
 				case 'loginAndPassword':
 					$login    = $__by->getValue()['login'];
 					$password = $__by->getValue()['password'];
@@ -86,10 +92,6 @@ class Db
 					return false;
 				}
 		}
-
-		/**
-		 * 
-		 */
 
 		private function createSelect(string $__table, By $__by,  array $__fields=[])
 		{
@@ -106,23 +108,19 @@ class Db
 				case 'all' :
 					return "SELECT $fields FROM `$__table`";
 
-				// by id
 				case 'id':
 					$id = $__by->getValue()['id'];
 					return "SELECT $fields FROM `$__table` WHERE id='{$id}'";
 				
-				// by username
 				case 'login':
 					$login = $__by->getValue()['login'];
 					return "SELECT $fields FROM `$__table` WHERE login='{$login}'";
 
-				// by login and cookie
 				case 'loginAndCookie':
 					$login  = $__by->getValue()['login'];
 					$cookie = $__by->getValue()['cookie'];
 					return "SELECT $fields FROM `$__table` WHERE login='{$login}' AND cookie='{$cookie}'";
 
-				// by login and password
 				case 'loginAndPassword':
 					$login    = $__by->getValue()['login'];
 					$password = $__by->getValue()['password'];
@@ -132,20 +130,28 @@ class Db
 					$login = $__by->getValue()['login'];
 					return "SELECT $fields FROM `$__table` WHERE login!='{$login}'";
 
-				case 'vPath' :
-					$path  = $__by->getValue()['vPath'];
-					return "SELECT $fields FROM `$__table` WHERE virtual_path='{$path}'";	
+				case 'location' :
+					$location  = $__by->getValue()['location'];
+					return "SELECT $fields FROM `$__table` WHERE location='{$location}'";	
 
-				case 'vPathAndOwner' :
-					$path  = $__by->getValue()['vPath'];
+				case 'nameAndLocation' :
+					$location  = $__by->getValue()['location'];
+					$name	   = $__by->getValue()['name'];
+				 	return "SELECT $fields FROM `$__table` WHERE location='{$location}' AND name='{$name}'";		
+
+				case 'virtualPath' :
+					$virtualPath = $__by->getValue()['virtualPath'];
+					return "SELECT $fields FROM `$__table` WHERE virtual_path='{$virtualPath}'";		
+
+				case 'locationAndOwner' :
+					$location = $__by->getValue()['location'];
 					$owner = $__by->getValue()['owner'];
-					return "SELECT $fields FROM `$__table` WHERE owner='{$owner}' AND virtual_path='{$path}'";
+					return "SELECT $fields FROM `$__table` WHERE owner='{$owner}' AND location='{$location}'";
 					
 				case 'idAndOwner' :
 					$id    = $__by->getValue()['id'];
 					$owner = $__by->getValue()['owner'];
 					return "SELECT $fields FROM `$__table` WHERE owner='{$owner}' AND id='{$id}'";
-
 
 				default :
 					return false;
@@ -153,30 +159,23 @@ class Db
 
 		}
 
-		/**
-		 *
-		 */
 		private function createDeleteRow(string $__table, By $__by)
 		{
 			switch ($__by->getMechanism()) {
 			
-				// by id
 				case 'id':
 					$id = $__by->getValue()['id'];
 					return "DELETE FROM `$__table` WHERE id='{$id}'";
 				
-				// by username
 				case 'login':
 					$login = $__by->getValue()['login'];
 					return "DELETE FROM `$__table` WHERE login='{$login}'";
 
-				// by login and cookie
 				case 'loginAndCookie':
 					$login  = $__by->getValue()['login'];
 					$cookie = $__by->getValue()['cookie'];
 					return "DELETE FROM `$__table` WHERE login='{$login}' AND cookie='{$cookie}'";
 
-				// by login and password
 				case 'loginAndPassword':
 					$login    = $__by->getValue()['login'];
 					$password = $__by->getValue()['password'];
@@ -187,9 +186,6 @@ class Db
 			}
 		}
 
-		/**
-		 * 
-		 */
 		private function createInsertRow(string $__table, array $__data)
 		{
 			$fieldsQuery = $valuesQuery = '';
@@ -202,16 +198,4 @@ class Db
 			$valuesQuery = substr($valuesQuery, 0, -1);
 			return "INSERT INTO `$__table` ($fieldsQuery) VALUES ($valuesQuery)";
 		}
-
-		/**
-		 * 
-		 */
-		private function makeQuery(string $__query)
-		{
-			$result = mysqli_query($this->link, $__query);
-			return $result;
-		}
-		
-
-
 	}

@@ -8,7 +8,7 @@ class AccountController extends Controller {
 
 	public function loginAction() 
 	{
-		// проверка на авторизированного пользователя
+		// проверка на уже вошедшего пользователя
 		if ($this->model->userLogged()) {
 			$this->view->redirect('http://localhost/smartstorage/profile/');
 		} 
@@ -34,7 +34,7 @@ class AccountController extends Controller {
 	
 	public function registerAction() 
 	{
-		// проверка на авторизированного пользователя
+		// проверка на вошедшего пользователя
 		if ($this->model->userLogged()) {
 			$this->view->redirect('http://localhost/smartstorage/profile/');
 		} 

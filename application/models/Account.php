@@ -5,6 +5,7 @@ namespace application\models;
 use application\lib\Db;
 use application\core\Model;
 use application\lib\By;
+use Exception;
 
 class Account extends Model
 {   
@@ -15,28 +16,29 @@ class Account extends Model
     public function __construct()
     {
         parent::__construct();
-        $this->login    = $_POST['login'] ?? '';
-        $this->password = $_POST['password'] ?? '';
+        $this->login    = empty($_POST['login']) ? '' : $_POST['login'];
+        $this->password = empty($_POST['password']) ? '' : $_POST['password'];
     }
 
 	public function signUp() 
     {
         if (!$this->checklogin() || !$this->checkPassword()) {
             return 'error: unvalid input data';
-        }
+        }   
 
         if ($this->userExist()) {
             return 'error: user exists'; 
         }
 
         if (!$this->addUser()) {
-            return 'error: insert fail';
+            throw new Exception('error: insert fail');
         }
 
         $this->setCockie();
 
+        $_SESSION['login']    = $this->login;
         $_SESSION['location'] = $this->login;
-        $_SESSION['auth']  = true;
+        $_SESSION['auth']     = true;
         
         return 'success'; 
     }
@@ -57,8 +59,9 @@ class Account extends Model
 
         $this->setCockie();
 
+        $_SESSION['login']    = $this->login;
         $_SESSION['location'] = $this->login;
-        $_SESSION['auth']  = true;
+        $_SESSION['auth']     = true;
 
         return 'success';
     }

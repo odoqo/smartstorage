@@ -8,121 +8,198 @@ use application\core\View;
 class StorageController extends Controller 
 {
 
-    // хранилище пользователя
+    /**
+     * Главная страница пользователя
+     */
     public function profileAction()
     {    
-        if (!$this->model->authorized()) {
+        // 1 этап авторизации
+        if ($this->model->notAuthorized()) {
             $this->view->redirect('http://localhost/smartstorage/login/'); 
         }    
         
-        $dataArr = $this->model->getProfileData();
-        $this->view->generate($dataArr);    
+        // 2 этап авторизации
+        if ($this->model->isOwner()) {
+            $dataArr = $this->model->getProfileData();
+            $this->view->generate($dataArr);    
+        } 
+        
+        // враг не пройдет (наверно)
+        else {
+            View::errorCode(403);
+        }
+
     }
 
+    /**
+     * Главная страница просмотра пользовательких хранилищ
+     */
     public function usersAction()
     {    
-        if (!$this->model->authorized()) {
+        // авторизация
+        if ($this->model->notAuthorized()) {
             $this->view->redirect('http://localhost/smartstorage/login/'); 
-        }    
+        }
         
-        if ($this->model->access()) {
-            $dataArr = $this->model->getUsersData();
-            $this->view->generate($dataArr);    
-        } else {
+        $dataArr = $this->model->getUsersData();
+        $this->view->generate($dataArr);        
+    }
+
+    /**
+     * Обработчик добавления файла 
+     */
+    public function newFileAction()
+    {   
+        // 1 этап автоизации
+        if ($this->model->notAuthorized()) {
+            $this->view->redirect('http://localhost/smartstorage/login/'); 
+        }
+
+        // 2 этап авторизации
+        if ($this->model->isOwner()) {    
+            $this->model->newFile();
+            $this->view->redirect('http://localhost/smartstorage/profile/');
+        } 
+        
+        // враг не пройдет
+        else {
+            View::errorCode(403);
+        }
+    }
+    
+    /**
+     * Обработчик добавления каталога
+     */
+    public function newCatalogAction()
+    {   
+        // 1 этап автоизации
+        if ($this->model->notAuthorized()) {
+            $this->view->redirect('http://localhost/smartstorage/login/'); 
+        }
+
+        // 2 этап авторизации
+        if ($this->model->isOwner()) {    
+            $this->model->newCatalog();
+            $this->view->redirect('http://localhost/smartstorage/profile/');
+        } 
+        
+        // враг не пройдет
+        else {
             View::errorCode(403);
         }
     }
 
-
-    // добавление файла
-    public function newFileAction()
-    {
-        if (!$this->model->authorized()) {
-            $this->view->redirect('http://localhost/smartstorage/login/'); 
-        }
-
-        $this->model->newFile();
-        $this->view->redirect('http://localhost/smartstorage/profile/');
-    }
-    
-    // добавление каталога
-    public function newCatalogAction()
-    {
-        if (!$this->model->authorized()) {
-            $this->view->redirect('http://localhost/smartstorage/login/'); 
-        }
-
-        $this->model->addCatalog();
-        $this->view->redirect('http://localhost/smartstorage/profile/');
-    }
-
-    // удаление файла
+     /**
+     * Обработчик удаления файла
+     */
     public function deleteFileAction()
     {  
-        if (!$this->model->authorized()) {
+        // 1 этап авторизации
+        if ($this->model->notAuthorized()) {
             $this->view->redirect('http://localhost/smartstorage/login/'); 
         }
 
-        if ($this->model->accessToDeleteFile()) {
+        // 2 этап авторизации
+        if ($this->model->availableToDelete()) {
             $this->model->deleteFile();
             $this->view->redirect('http://localhost/smartstorage/profile/');
     
-        } else {
+        } 
+        
+        // враг не пройдет
+        else {
             View::errorCode(403);
         }
     }
 
-    // удаление каталога
+    /**
+     * Обработчик удаления каталога
+     */
     public function deleteCatalogAction()
     {
-        if (!$this->model->authorized()) {
+        // 1 этап авторизции
+        if ($this->model->notAuthorized()) {
             $this->view->redirect('http://localhost/smartstorage/login/'); 
         }
 
-        if ($this->model->accessToDeleteCatalog()) {
+        // 2 этап авторизции
+        if ($this->model->availableToDelete()) {
             $this->model->deleteCatalog();
             $this->view->redirect('http://localhost/smartstorage/profile/');
     
-        } else {
+        } 
+
+        //враг не пройдёт
+        else {
             View::errorCode(403);
         }
     }
     
-    // загрузка файла
+    /**
+     * Обработчик загрузки файла
+     */
     public function downloadFileAction()
     {
-        if (!$this->model->authorized()) {
+        // 1 этап авторизации
+        if ($this->model->notAuthorized()) {
             $this->view->redirect('http://localhost/smartstorage/login/'); 
         }
 
-        if ($this->model->access()) {
+        // 2 этап авторизации
+        if ($this->model->availableToDownload()) {
             $this->model->downloadFile();    
-            $this->view->redirect('http://localhost/smartstorage/profile/');
-        
-        } else {
+            $page = $this->route['page'];
+            $this->view->redirect("http://localhost/smartstorage/$page/");
+
+        } 
+
+        // враг не пройдёт
+        else {
             View::errorCode(403);
         }
     }
+    
+    /**
+     * Обработчик возвращения в свое хранилище
+     */
+    public function homeAction()
+    {
+        // авторизация
+        if ($this->model->notAuthorized()) {
+            $this->view->redirect('http://localhost/smartstorage/login/'); 
+        }
 
-    // смена текущего каталога
+        $this->model->home();
+        $this->view->redirect("http://localhost/smartstorage/profile/");
+    }
+
+    /**
+     * Обработчик смены просматриваемого каталога
+     */
     public function changeLocationAction()
     {
-        if (!$this->model->authorized()) {
+        // авторизация
+        if ($this->model->notAuthorized()) {
             $this->view->redirect('http://localhost/smartstorage/login/'); 
         }
 
         $this->model->changeLocation();
-        $this->view->redirect('http://localhost/smartstorage/profile/');
+        $page = $this->route['page'];
+        $this->view->redirect("http://localhost/smartstorage/$page/");
     }
 
-    // подъём на уровень вверх
+     /**
+     * Обработчик смены просматриваемого каталога на один уровень выше
+     */
     public function levelUpAction()
     {
-        if (!$this->model->authorized()) {
+        // авторизация
+        if ($this->model->notAuthorized()) {
             $this->view->redirect('http://localhost/smartstorage/login/'); 
         }
 
         $this->model->levelUp();
-        $this->view->redirect('http://localhost/smartstorage/profile/');
+        $page = $this->route['page'];
+        $this->view->redirect("http://localhost/smartstorage/$page/");
     }
 }

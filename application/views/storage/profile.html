@@ -28,7 +28,7 @@
                 <div class="list-group shadow">
 
                     <!-- форма добавления файла -->
-                    <form action="http://localhost/smartstorage/newFile/" method="post" enctype="multipart/form-data">
+                    <form action="http://localhost/smartstorage/profile/newFile/" method="post" enctype="multipart/form-data">
                         
                         <div class="list-group-item bg-light">
                             <input type="file" name="file" class="form-control form-control-sm m-1">
@@ -45,7 +45,7 @@
                                 <label class="form-check-label" for="f3">Protected</label>
                             </div>
                             <div class="collapse" id="collapse_file_protected">
-                                <select name="users_list[]" multiple="multiple" class="form-select form-select-sm m-1" aria-label=".form-select-sm example" placeholder="Список пользователей">
+                                <select name="access_list[]" multiple="multiple" class="form-select form-select-sm m-1" aria-label=".form-select-sm example" placeholder="Список пользователей">
                                     <!-- list_users_cycle -->
                                     <option value="<!-- .$user -->"><!-- .$user --></option>
                                     <!-- list_users_cycle_ends -->
@@ -57,7 +57,7 @@
                     </form>
         
                     <!-- форма добавления каталога -->
-                    <form action="http://localhost/smartstorage/newCatalog/" method="post">
+                    <form action="http://localhost/smartstorage/profile/newCatalog/" method="post">
 
                         <div class="list-group-item bg-light">
                             <input type="text" name="catalog" class="form-control m-1" placeholder="Назавание добавляемого каталога">
@@ -74,7 +74,7 @@
                             <label class="form-check-label" for="c3">Protected</label>
                             </div>
                             <div class="collapse" id="collapse_catalog_protected">
-                                <select name="users_list[]" multiple="multiple" class="form-select form-select-sm m-1" aria-label=".form-select-sm example" placeholder="Список пользователей">
+                                <select name="access_list[]" multiple="multiple" class="form-select form-select-sm m-1" aria-label=".form-select-sm example" placeholder="Список пользователей">
                                     <option selected value="<!-- .$user_now -->"><!-- .$user_now --></option>
                                     <!-- list_users_cycle -->
                                     <option value="<!-- .$user -->"><!-- .$user --></option>
@@ -88,38 +88,37 @@
                 </div>
             </div>
         
+
+            <!-- хранилище пользователя -->
             <div class="col">
             
-                
-
-                    
                     <nav class="nav nav-pills flex-column flex-sm-row mb-3">
-                        <a class="flex-sm-fill text-sm-center nav-link border bg-light disabled" href="#"><!-- .$location --></a>
-                        <a class="flex-sm-fill text-sm-center nav-link border" href="http://localhost/smartstorage/users/">Список пользователей</a>
+                        <a class="flex-sm-fill text-sm-center nav-link border shadow-sm bg-light disabled" href="#"><!-- .$location --></a>
+                        <a class="flex-sm-fill text-sm-center nav-link border shadow-sm" href="http://localhost/smartstorage/users/">Список пользователей</a>
                     </nav>     
                     
                         <div class="list-group">    
                               
                             <ul class="list-group ">
                                 <li class="list-group-item shadow p-0">
-                                    <a class="h5 nav-link" href="http://localhost/smartstorage/levelUp/">/..</a>
+                                    <a class="h5 nav-link" href="http://localhost/smartstorage/profile/levelUp/">/..</a>
                                 </li>
                                 <!-- cataloges_cycle -->
                                 <li class="list-group-item shadow">
                                     
-                                    <h4><!-- .$name -->
+                                    <h5><!-- .$name -->
                                         <i class="h6 text-secondary"><!-- .$rights --></i>
                                     
-                                    </h4>
+                                    </h5>
                                     <div class="btn-group" role="group" aria-label="">
                                     
                                     <!-- формы для взаимодействия с данными в текщем каталоге -->
-                                    <form action="http://localhost/smartstorage/changeLocation/" method="post">
+                                    <form action="http://localhost/smartstorage/profile/changeLocation/" method="post">
                                         <button type="submit" name="go" value="<!-- .$id_for_action -->" class=" btn btn-sm btn-outline-success border-2 m-1">
                                             Перейти
                                         </button>
                                     </form>
-                                    <form action="http://localhost/smartstorage/deleteCatalog/" method="post">
+                                    <form action="http://localhost/smartstorage/profile/deleteCatalog/" method="post">
                                         <button type="submit" name="delete_catalog" value="<!-- .$id_for_delete -->" class="btn btn-sm btn-outline-danger border-2 m-1" >
                                             Удалить
                                         </button>
@@ -129,17 +128,17 @@
                                 <!-- cataloges_cycle_ends -->
                                 <!-- files_cycle -->
                                 <li class="list-group-item shadow">
-                                    <h4><!-- .$name -->
+                                    <h5><!-- .$name -->
                                         <i class="h6 text-secondary"><!-- .$rights --></i>
-                                    </h4>
+                                    </h5>
                                     
                                     <div class="btn-group" role="group" aria-label="">
-                                    <form action="http://localhost/smartstorage/download/" method="post">
+                                    <form action="http://localhost/smartstorage/profile/downloadFile/" method="post">
                                         <button type="submit" name="download" value="<!-- .$id_for_action -->" class=" btn btn-sm btn-outline-success border-2 m-1">
                                             Загрузить
                                         </button>
                                     </form>
-                                    <form action="http://localhost/smartstorage/deleteFile/" method="post">
+                                    <form action="http://localhost/smartstorage/profile/deleteFile/" method="post">
                                         <button type="submit" name="delete_file" value="<!-- .$id_for_delete -->" class="btn btn-sm btn-outline-danger border-2 m-1" >
                                             Удалить
                                         </button>
