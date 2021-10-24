@@ -4,11 +4,15 @@ namespace application\lib;
 
 use Exception;
 
+/**
+ * Класс для работы с csv файлами
+ * 
+ * @author odoqo
+ */
 class CSV 
 {
     private $file = null;
     private $tmpFile = null;
-    private $separator = null;
 
     public function __construct($__file) {
 

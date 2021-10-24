@@ -4,6 +4,9 @@ namespace application\core;
 
 use application\lib\Template;
 
+/**
+ * Логика генерации страниц
+ */
 class View
 {
 	public $path;
@@ -15,6 +18,9 @@ class View
 		$this->path  = $route['controller'].'/'.$route['action'];
 	}
 
+	/**
+	 * Генерация страницы использую соответствующий шаблон 
+	 */
 	public function generate($__dataArray=array()) 
 	{
 		$path = 'application/views/'.$this->path.'.html';
@@ -27,16 +33,22 @@ class View
 		}
 	}
 
-	public function redirect($url) 
+	/**
+	 * Перенаправление пользователя на страницу с url = $__url
+	 */
+	public function redirect($__url) 
 	{
-		header('location: '.$url);
+		header('location: '.$__url);
 		exit;
 	}
 
-	public static function errorCode($code) 
+	/**
+	 * Страница ошибки с кодом $__code
+	 */
+	public static function errorCode($__code) 
 	{
-		http_response_code($code);
-		$path = 'application/views/errors/'.$code.'.php';
+		http_response_code($__code);
+		$path = 'application/views/errors/'.$__code.'.php';
 		if (file_exists($path)) {
 			require $path;
 		}

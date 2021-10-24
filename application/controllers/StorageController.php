@@ -5,6 +5,9 @@ namespace application\controllers;
 use application\core\Controller;
 use application\core\View;
 
+/**
+ * Контроллер основных действий на сайте
+ */
 class StorageController extends Controller 
 {
 
@@ -24,11 +27,11 @@ class StorageController extends Controller
             $this->view->generate($dataArr);    
         } 
         
-        // враг не пройдет (наверно)
+        // враг не пройдет (наверно). Точнее пройдет только к себе в аккаунт
         else {
-            View::errorCode(403);
+            $this->model->home();
+            $this->view->redirect('http://localhost/smartstorage/profile/');
         }
-
     }
 
     /**

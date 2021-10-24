@@ -1,14 +1,17 @@
 <?php
 
+/**
+ * Маршрутизация 
+ */
 return array(
 
-	// главная страница
+	// главная страница - страница входа
 	'smartstorage' => array(
 		'controller' => 'account',
 		'action' 	 => 'login',
 	),
 
-	// страницы авторизации
+	// страница входа
 	'smartstorage/login' => array(
 		'controller' => 'account',
 		'action' 	 => 'login',
@@ -26,14 +29,14 @@ return array(
 		'action' 	 => 'logout',
 	),
 
-    // профиль
+    // профиль пользователя
     'smartstorage/profile' => array(
 		'controller' => 'storage',
 		'action'     => 'profile',
 		'page'		 => 'profile'
 	),
 
-	// возвращение 
+	// возвращение в свое хранилище
 	'smartstorage/home' => array(
 		'controller' => 'storage',
 		'action' 	 => 'home',
@@ -53,68 +56,80 @@ return array(
 		'page'		 => 'profile'
 	),
     
-    // перейти на уровень назад
+    // переход на уровень вверх(в профиле)
 	'smartstorage/profile/levelUp' => array(
 		'controller' => 'storage',
 		'action'     => 'levelUp',
 		'page'		 => 'profile'
 	),
     
-    // удаление файла
+    // удаление файла(в профиле)
 	'smartstorage/profile/deleteFile' => array(
 		'controller' => 'storage',
 		'action'     => 'deleteFile',
 		'page'		 => 'profile'
 	),
     
-    // удаление каталога
+    // удаление каталога(в профиле)
 	'smartstorage/profile/deleteCatalog' => array(
 		'controller' => 'storage',
 		'action'     => 'deleteCatalog',
 		'page'		 => 'profile'
 	),
     
-	//переход в каталог
+	//переход в другой каталог(в профиле)
 	'smartstorage/profile/changeLocation' => array(
 		'controller' => 'storage',
 		'action'     => 'changeLocation',
 		'page'		 => 'profile'
 	),
     
-    // добавление файла
+    // скачивание файла(в профиле)
 	'smartstorage/profile/downloadFile' => array(
 		'controller' => 'storage',
 		'action'     => 'downloadFile',
 		'page'		 => 'profile'
 	),     
 
+	// страница просмотра пользовательских хранилищ
 	'smartstorage/users' => array(
 		'controller' => 'storage',
 		'action'     => 'users',
 		'page'		 => 'users'
 	),      
 
+	// переход на уровень вверх
 	'smartstorage/users/levelUp' => array(
 		'controller' => 'storage',
 		'action'     => 'levelUp',
 		'page'		 => 'users'
 	),
 	
+	//переход в другой каталог
 	'smartstorage/users/changeLocation' => array(
 		'controller' => 'storage',
 		'action'     => 'changeLocation',
 		'page'		 => 'users'
 	),
 	
+	// загрузка файла
 	'smartstorage/users/downloadFile' => array(
 		'controller' => 'storage',
 		'action'     => 'downloadFile',
 		'page'		 => 'users'
 	),
-	
-	
-	'smartstorage/test' => array(
-		'controller' => 'test',
-		'action'     => 'test',
-	),     
+    
+	// удаление файла в чужом хранилище(для админа)
+    'smartstorage/users/deleteFile' => array(
+		'controller' => 'storage',
+		'action'     => 'deleteFile',
+		'page'		 => 'users'
+	),
+    
+	// удаление каталога в чужом хранилище(для админа)
+    'smartstorage/users/deleteCatalog' => array(
+		'controller' => 'storage',
+		'action'     => 'deleteCatalog',
+		'page'		 => 'users'
+	),
 );

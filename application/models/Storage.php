@@ -7,11 +7,15 @@ use application\lib\By;
 use application\lib\CSV;
 use Exception;
 
+/**
+ * Модель содержит основную логику облачного хранилища
+ */
 class Storage extends Model {
 
     private $location;
     private $login;
     private $csv;
+    private $isAdmin;
 
     public function __construct()
     {
@@ -19,6 +23,7 @@ class Storage extends Model {
         $this->login    = $_SESSION['login'] ?? $_COOKIE['login'] ?? false;
         $this->location = $_SESSION['location'] ?? $this->login;
         $this->csv      = new CSV('application\rights\rights.csv');
+        $this->isAdmin  = $this->db->selectRow('users', By::login($this->login))['isAdmin'];
     }
 
     /**
@@ -66,6 +71,10 @@ class Storage extends Model {
      */
     public function availableToDelete()
     {
+        if($this->isAdmin) {
+            return true;
+        }
+        
         if (isset($_POST['delete_file'])) {
             $fileId = $_POST['delete_file'];
             return $this->db->selectRow('files', By::idAndOwner($fileId, $this->login));
@@ -86,6 +95,10 @@ class Storage extends Model {
      */
     public function availableToDownload()
     {
+        if($this->isAdmin) {
+            return true;
+        }
+
         $fileId = $_POST['download'] ?? '';
         $file   = $this->db->selectRow('files', By::id($fileId));
         
@@ -103,6 +116,10 @@ class Storage extends Model {
      */
     public function availableForViewing()
     {
+        if($this->isAdmin) {
+            return true;
+        }
+
         // для перехода в хранилище выбранного пользователя
         if (!empty($_POST['user'])) {
             return true; // смотреть можно любое хранилище
@@ -142,7 +159,7 @@ class Storage extends Model {
     }
 
     /**
-     * Формирование массива данных для шаблонизатора
+     * Формирование массива данных для шаблонизатора страницы профиля
      * 
      * @return array
      */
@@ -156,13 +173,14 @@ class Storage extends Model {
     }
 
     /**
-     * 
+     * Формирование массива данных для шаблонизатора страаницы просмотра пользователей
      * 
      * @return array
      */
     public function getUsersData()
     {
         $dataArray['cataloges_cycle'] = $this->getLocalCataloges();
+        $dataArray['isAdmin']         = $this->isAdmin;
         $dataArray['files_cycle']     = $this->getLocalFiles();      
         $dataArray['users_cycle']     = $this->getUsersList(); 
         $dataArray['location']        = $this->location;    
@@ -382,6 +400,7 @@ class Storage extends Model {
             header('Content-Length: ' . filesize($path));
             
             readfile($path);
+            exit;
         }
     }
 

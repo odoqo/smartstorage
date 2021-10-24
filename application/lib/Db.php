@@ -5,7 +5,8 @@ namespace application\lib;
 use Exception;
 
 /**
- * Менеджер по работе с базой данных MySQL
+ * Класс для работы с базой данных MySQL
+ * 
  * @author odoqo
  */
 class Db

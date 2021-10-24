@@ -17,12 +17,18 @@ class Router
         }
     }
 
+    /**
+     * Замена назаваний маршрутов на их регулярные выражения
+     */
     private function add($route, $params)
     {
         $route = '#^'.$route.'$#';
         $this->routes[$route] = $params;
     }
 
+    /**
+     * Проверка маршрута по текущему url на соответствие
+     */
     public function match() 
     {
         $url = trim($_SERVER['REQUEST_URI'], '/');
@@ -36,22 +42,27 @@ class Router
         return false;
     }
 
+    /**
+     * Поиск нужного обработчика маршрута
+     */
     public function run()
     {
         if ($this->match()) {
         
+            // класс обработчика
             $class = 'application\controllers\\'.ucfirst($this->params['controller']).'Controller';
             if (class_exists($class)) {
         
+                // обработчик
                 $action = $this->params['action'].'Action';
                 if (method_exists($class, $action)) {
                     
+                    // запуск обработчика
                     $controller = new $class($this->params);
                     $controller->$action();
                 }
             }
         }
-
         View::errorCode(404);
     }
 }

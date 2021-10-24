@@ -5,3 +5,7 @@
 /application/models/Test.php
 /application/data
 /application/rights
+/Tests/AccountTest.php
+/composer.lock
+/composer.json
+/nbproject

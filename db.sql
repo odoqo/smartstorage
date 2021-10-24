@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `login` text NOT NULL,
   `password` text NOT NULL,
   `cookie` text NOT NULL,
+  `isAdmin` BOOLEAN NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 

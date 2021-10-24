@@ -4,8 +4,15 @@ namespace application\controllers;
 
 use application\core\Controller;
 
-class AccountController extends Controller {
+/**
+ * Контроллер учетных записей пользователей
+ */
+class AccountController extends Controller 
+{
 
+	/**
+	 * Обработчик входа в аккаунт 
+	 */
 	public function loginAction() 
 	{
 		// проверка на уже вошедшего пользователя
@@ -31,7 +38,10 @@ class AccountController extends Controller {
 			$this->view->generate($error);
 		}
 	}
-	
+
+	/**
+	 * Обработчик регистрации аккаунта 
+	 */
 	public function registerAction() 
 	{
 		// проверка на вошедшего пользователя
@@ -57,6 +67,9 @@ class AccountController extends Controller {
 		}	
 	}
 
+	/**
+	 * Обработчик выхода из аккаунта 
+	 */
 	public function logoutAction()
 	{
 		$this->model->logout();
