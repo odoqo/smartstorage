@@ -91,7 +91,7 @@ class Storage extends Model {
         
         $isOwnerFile   = $file['owner'] == $this->login;
         $isPublicFile  = $file['rights'] == 'public';
-        $fileAvailable = $this->csv->readRow($file['virtual_path']);
+        $fileAvailable = in_array($this->login, $this->csv->readRow($file['virtual_path']));
         
         return $isOwnerFile || $isPublicFile || $fileAvailable;
     }
@@ -115,8 +115,8 @@ class Storage extends Model {
         
             $isOwnerCatalog   = $catalog['owner'] === $this->login;
             $isPublicCatalog  = $catalog['rights'] === 'public';
-            $catalogAvailable = $this->csv->readRow($catalog['virtual_path']);
-    
+            $catalogAvailable = in_array($this->login, $this->csv->readRow($catalog['virtual_path']));
+
             return  $isOwnerCatalog || $isPublicCatalog || $catalogAvailable;
         }
 
