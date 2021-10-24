@@ -103,14 +103,42 @@ class Storage extends Model {
      */
     public function availableForViewing()
     {
-        $catalogId = $_POST['go'] ?? '';
-        $catalog   = $this->db->selectRow('files', By::id($catalogId));
+        // для перехода в хранилище выбранного пользователя
+        if (!empty($_POST['user'])) {
+            return true; // смотреть можно любое хранилище
+        }
+
+        // для смены каталога в текущем хранилище
+        elseif (!empty($_POST['go'])) {
+            $catalogId = $_POST['go'];
+            $catalog   = $this->db->selectRow('cataloges', By::id($catalogId));
         
-        $isOwnerCatalog   = $catalog['owner'] == $this->login;
-        $isPublicCatalog  = $catalog['rights'] == 'public';
-        $catalogAvailable = $this->csv->readRow($catalog['virtual_path']);
-        
-        return  $isOwnerCatalog || $isPublicCatalog || $catalogAvailable;   
+            $isOwnerCatalog   = $catalog['owner'] === $this->login;
+            $isPublicCatalog  = $catalog['rights'] === 'public';
+            $catalogAvailable = $this->csv->readRow($catalog['virtual_path']);
+    
+            return  $isOwnerCatalog || $isPublicCatalog || $catalogAvailable;
+        }
+
+        return false;
+    }
+
+    /**
+     * Смена текущего расположения
+     */
+    public function changeLocation() 
+    {
+        // переход в хранилище выбранного пользователя
+        if (!empty($_POST['user'])) {
+            $_SESSION['location'] = $_POST['user'];
+        }
+
+        // смена каталога в текущем хранилище
+        elseif (!empty($_POST['go'])) {
+            $catalogId = $_POST['go'];
+            $catalog   = $this->db->selectRow('cataloges', By::id($catalogId));
+            $_SESSION['location'] = $catalog['virtual_path'];
+        }
     }
 
     /**
@@ -120,10 +148,10 @@ class Storage extends Model {
      */
     public function getProfileData()
     {
-        $dataArray['cataloges_cycle']  = $this->getLocalCataloges();
-        $dataArray['files_cycle']      = $this->getLocalFiles();      
-        $dataArray['list_users_cycle'] = $this->getUsersList();
-        $dataArray['location']         = $this->location;    
+        $dataArray['cataloges_cycle']   = $this->getLocalCataloges();
+        $dataArray['files_cycle']       = $this->getLocalFiles();      
+        $dataArray['flist_users_cycle'] = $dataArray['clist_users_cycle'] = $this->getUsersList();
+        $dataArray['location']          = $this->location;    
         return $dataArray;
     }
 
@@ -148,11 +176,11 @@ class Storage extends Model {
     public function newFile() 
     {
         $file = $this->addFile();
-    
+        
         // добавление списка пользователей имеющих доступ к файлу
         if($file['rights'] === 'protected') {
             $accessList = empty($_POST['access_list']) ? [] : $_POST['access_list'];
-            array_unshift($accessList, $file['path']);
+            array_unshift($accessList, $file['virtual_path']);
             $this->csv->writeRow($accessList);      
         }       
             
@@ -207,7 +235,7 @@ class Storage extends Model {
             throw new Exception('failed to upload file');
         }
 
-        $rights   = empty($_POST['catalog_rights']) ? 'private' : $_POST['catalog_rights'];
+        $rights   = empty($_POST['file_rights']) ? 'private' : $_POST['file_rights'];
         $uniqName = $this->uniqName($name);
 
         $data = array(
@@ -234,10 +262,9 @@ class Storage extends Model {
     public function newCatalog() 
     {
         $catalog = $this->addCatalog();
-
-        if ($catalog['right'] === 'protected') {
+        if ($catalog['rights'] === 'protected') {
             $accessList = empty($_POST['access_list']) ? [] : $_POST['access_list'];
-            array_unshift($accessList, $catalog['path']);
+            array_unshift($accessList, $catalog['virtual_path']);
             $this->csv->writeRow($accessList);       
         }                 
     }
@@ -255,7 +282,7 @@ class Storage extends Model {
         $file    = $this->db->selectRow('files', By::nameAndLocation($__name, $this->location));
         
         if ($catalog || $file) {
-            return $__name . time();
+            return time() . $__name;
         }
 
         return $__name;
@@ -315,24 +342,6 @@ class Storage extends Model {
         }
 
         $this->db->deleteRow('cataloges', By::id($id));
-    }
-
-    /**
-     * Смена текущего расположения
-     */
-    public function changeLocation() 
-    {
-        // переход в хранилище выбранного пользователя
-        if (!empty($_POST['user'])) {
-            $_SESSION['location'] = $_POST['user'];
-        }
-
-        // смена каталога в текущем хранилище
-        elseif (!empty($_POST['go'])) {
-            $catalogId = $_POST['go'];
-            $catalog   = $this->db->selectRow('cataloges', By::id($catalogId));
-            $_SESSION['location'] = $catalog['virtual_path'];
-        }
     }
     
     /**

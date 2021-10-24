@@ -178,14 +178,22 @@ class StorageController extends Controller
      */
     public function changeLocationAction()
     {
-        // авторизация
+        // 1 этап авторизации
         if ($this->model->notAuthorized()) {
             $this->view->redirect('http://localhost/smartstorage/login/'); 
         }
 
-        $this->model->changeLocation();
-        $page = $this->route['page'];
-        $this->view->redirect("http://localhost/smartstorage/$page/");
+        // 2 этап авторизации
+        if ($this->model->availableForViewing()) {
+            $this->model->changeLocation();
+            $page = $this->route['page'];
+            $this->view->redirect("http://localhost/smartstorage/$page/");    
+        }
+
+        // враг не пройдет
+        else {
+            View::errorCode(403);
+        }
     }
 
      /**
