@@ -2,7 +2,7 @@
 
 return [
 	'host' => 'localhost',
-	'name' => 'smart_storage',
+	'name' => 'timp',
 	'user' => 'root',
-	'password' => '',
+	'password' => 'root',
 ];

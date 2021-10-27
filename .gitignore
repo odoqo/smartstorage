@@ -6,3 +6,4 @@
 /application/data
 /application/rights
 /vendor
+/application/config/db.php

@@ -32,13 +32,13 @@ class AccountControllerTest extends TestCase {
         $_COOKIE['key']='acb71dd620ead1b7d36e67c9ea0644f6c73b42e0007a7cd99146b5972bfe8bd8';
 
         $mockView = $this->getMockBuilder(View::class)
-                         ->setMethods(['redirect'])
+                         ->setMethods(['jumpOnPage'])
                          ->getMock();
          
         $controller->view = $mockView;
         
-        $mockView->expects($this->once())->method('redirect')
-        ->with('http://localhost/smartstorage/profile/');
+        $mockView->expects($this->once())->method('jumpOnPage')
+        ->with('profile');
         
         $controller->loginAction();
     }
@@ -94,7 +94,7 @@ class AccountControllerTest extends TestCase {
         $_POST['login']='gena@yandex.ru';
         unset($_COOKIE);
         $mockView = $this->getMockBuilder(View::class)
-                         ->setMethods(['redirect'])
+                         ->setMethods(['jumpOnPage'])
                         ->setMethods(['generate'])
                          ->getMock();
         $mockModel = $this->getMockBuilder(Model::class)
@@ -106,8 +106,8 @@ class AccountControllerTest extends TestCase {
         
         $controller->view = $mockView;
         $controller->model = $mockModel;
-        $mockView->expects($this->once())->method('redirect')
-    ->with('http://localhost/smartstorage/profile/');
+        $mockView->expects($this->once())->method('jumpOnPage')
+    ->with('profile');
         
         $controller->loginAction();
     }
@@ -127,7 +127,7 @@ class AccountControllerTest extends TestCase {
 
         
         $mockView = $this->getMockBuilder(View::class)
-                         ->setMethods(['redirect'])
+                         ->setMethods(['jumpOnPage'])
                         ->setMethods(['generate'])
                          ->getMock();
         $mockModel = $this->getMockBuilder(Model::class)
@@ -166,7 +166,7 @@ class AccountControllerTest extends TestCase {
 	));
  
         $mockView = $this->getMockBuilder(View::class)
-                         ->setMethods(['redirect'])
+                         ->setMethods(['jumpOnPage'])
                          ->getMock();
         $mockModel = $this->getMockBuilder(Model::class)
                          ->setMethods(['logout'])
@@ -175,8 +175,8 @@ class AccountControllerTest extends TestCase {
         $controller->view = $mockView;
         $controller->model = $mockModel;
         $mockModel->expects($this->once())->method('logout');
-        $mockView->expects($this->once())->method('redirect')
-         ->with('http://localhost/smartstorage/');
+        $mockView->expects($this->once())->method('jumpOnPage')
+         ->with('login');
         
         $controller->logoutAction();
     }
@@ -199,13 +199,13 @@ class AccountControllerTest extends TestCase {
         $_COOKIE['key']='acb71dd620ead1b7d36e67c9ea0644f6c73b42e0007a7cd99146b5972bfe8bd8';
 
         $mockView = $this->getMockBuilder(View::class)
-                         ->setMethods(['redirect'])
+                         ->setMethods(['jumpOnPage'])
                          ->getMock();
          
         $controller->view = $mockView;
         
-        $mockView->expects($this->once())->method('redirect')
-        ->with('http://localhost/smartstorage/profile/');
+        $mockView->expects($this->once())->method('jumpOnPage')
+        ->with('profile');
         
         $controller->registerAction();
     }
@@ -263,7 +263,7 @@ class AccountControllerTest extends TestCase {
         $_POST['login']='123';
         unset($_COOKIE);
         $mockView = $this->getMockBuilder(View::class)
-                         ->setMethods(['redirect'])
+                         ->setMethods(['jumpOnPage'])
                         ->setMethods(['generate'])
                          ->getMock();
         $mockModel = $this->getMockBuilder(Model::class)
@@ -275,8 +275,8 @@ class AccountControllerTest extends TestCase {
         
         $controller->view = $mockView;
         $controller->model = $mockModel;
-        $mockView->expects($this->once())->method('redirect')
-    ->with('http://localhost/smartstorage/profile/');
+        $mockView->expects($this->once())->method('jumpOnPage')
+    ->with('profile');
         
         $controller->registerAction();
     }
@@ -296,7 +296,7 @@ class AccountControllerTest extends TestCase {
 
         
         $mockView = $this->getMockBuilder(View::class)
-                         ->setMethods(['redirect'])
+                         ->setMethods(['jumpOnPage'])
                         ->setMethods(['generate'])
                          ->getMock();
         $mockModel = $this->getMockBuilder(Model::class)

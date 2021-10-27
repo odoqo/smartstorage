@@ -17,7 +17,7 @@ class AccountController extends Controller
 	{
 		// проверка на уже вошедшего пользователя
 		if ($this->model->userLogged()) {
-			$this->jumpOnPage('profile');
+			$this->view->jumpOnPage('profile');
 		}
 		
 		// проверка на наличие данных для входа
@@ -31,7 +31,7 @@ class AccountController extends Controller
 			$status = $this->model->signIn();
 			
 			if ($status === 'success') {
-				$this->jumpOnPage('page');
+				$this->view->jumpOnPage('profile');
 			}
 
 			$error = ['error' => $status];
@@ -46,7 +46,7 @@ class AccountController extends Controller
 	{
 		// проверка на вошедшего пользователя
 		if ($this->model->userLogged()) {
-			$this->jumpOnPage('profile');
+			$this->view->jumpOnPage('profile');
 		} 
 		
 		// проверка на наличие данных для регистрации
@@ -59,7 +59,7 @@ class AccountController extends Controller
 			
 			$status = $this->model->signUp();
 			if ($status === 'success') {
-				$this->jumpOnPage('profile');
+				$this->view->jumpOnPage('profile');
 			}	
 
 			$error = ['error' => $status];
@@ -73,6 +73,6 @@ class AccountController extends Controller
 	public function logoutAction()
 	{
 		$this->model->logout();
-		$this->jumpOnPage('login');
+		$this->view->jumpOnPage('login');
 	}
 }
