@@ -3,6 +3,7 @@
 session_start();
 
 use application\core\Router;
+use application\core\View;
 
 // установка функции автозагрузки классов
 spl_autoload_register(function($class) {
@@ -13,6 +14,11 @@ spl_autoload_register(function($class) {
 
 });
 
-// запуск маршрутизатора
 $router = new Router;
-$router->run();
+
+// запуск маршрутизатора
+try {
+    $router->run();
+} catch (Exception $ex) {
+    View::exception($ex);   
+}

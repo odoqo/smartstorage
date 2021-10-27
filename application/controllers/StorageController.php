@@ -10,7 +10,6 @@ use application\core\View;
  */
 class StorageController extends Controller 
 {
-
     /**
      * Главная страница пользователя
      */
@@ -18,11 +17,11 @@ class StorageController extends Controller
     {    
         // 1 этап авторизации
         if ($this->model->notAuthorized()) {
-            $this->view->redirect('http://localhost/smartstorage/login/'); 
+            $this->view->jumpOnPage('login'); 
         }    
         
         // 2 этап авторизации
-        if ($this->model->isOwner()) {
+        elseif ($this->model->isOwner()) {
             $dataArr = $this->model->getProfileData();
             $this->view->generate($dataArr);    
         } 
@@ -30,7 +29,7 @@ class StorageController extends Controller
         // враг не пройдет (наверно). Точнее пройдет только к себе в аккаунт
         else {
             $this->model->home();
-            $this->view->redirect('http://localhost/smartstorage/profile/');
+            $this->view->jumpOnPage('profile');
         }
     }
 
@@ -41,7 +40,7 @@ class StorageController extends Controller
     {    
         // авторизация
         if ($this->model->notAuthorized()) {
-            $this->view->redirect('http://localhost/smartstorage/login/'); 
+            $this->view->jumpOnPage('login'); 
         }
         
         $dataArr = $this->model->getUsersData();
@@ -55,13 +54,13 @@ class StorageController extends Controller
     {   
         // 1 этап автоизации
         if ($this->model->notAuthorized()) {
-            $this->view->redirect('http://localhost/smartstorage/login/'); 
+            $this->view->jumpOnPage('login');
         }
 
         // 2 этап авторизации
-        if ($this->model->isOwner()) {    
+        elseif ($this->model->isOwner()) {    
             $this->model->newFile();
-            $this->view->redirect('http://localhost/smartstorage/profile/');
+            $this->view->jumpOnPage('profile');
         } 
         
         // враг не пройдет
@@ -77,13 +76,13 @@ class StorageController extends Controller
     {   
         // 1 этап автоизации
         if ($this->model->notAuthorized()) {
-            $this->view->redirect('http://localhost/smartstorage/login/'); 
+            $this->view->jumpOnPage('login');
         }
 
         // 2 этап авторизации
-        if ($this->model->isOwner()) {    
+        elseif ($this->model->isOwner()) {    
             $this->model->newCatalog();
-            $this->view->redirect('http://localhost/smartstorage/profile/');
+            $this->view->jumpOnPage('profile');
         } 
         
         // враг не пройдет
@@ -99,14 +98,13 @@ class StorageController extends Controller
     {  
         // 1 этап авторизации
         if ($this->model->notAuthorized()) {
-            $this->view->redirect('http://localhost/smartstorage/login/'); 
+            $this->view->jumpOnPage('login');
         }
 
         // 2 этап авторизации
-        if ($this->model->availableToDelete()) {
+        elseif ($this->model->availableToDelete()) {
             $this->model->deleteFile();
-            $this->view->redirect('http://localhost/smartstorage/profile/');
-    
+            $this->view->jumpOnPage('profile');
         } 
         
         // враг не пройдет
@@ -122,14 +120,13 @@ class StorageController extends Controller
     {
         // 1 этап авторизции
         if ($this->model->notAuthorized()) {
-            $this->view->redirect('http://localhost/smartstorage/login/'); 
+            $this->view->jumpOnPage('login');
         }
 
         // 2 этап авторизции
-        if ($this->model->availableToDelete()) {
+        elseif ($this->model->availableToDelete()) {
             $this->model->deleteCatalog();
-            $this->view->redirect('http://localhost/smartstorage/profile/');
-    
+            $this->view->jumpOnPage('profile');  
         } 
 
         //враг не пройдёт
@@ -145,15 +142,14 @@ class StorageController extends Controller
     {
         // 1 этап авторизации
         if ($this->model->notAuthorized()) {
-            $this->view->redirect('http://localhost/smartstorage/login/'); 
+            $this->view->jumpOnPage('login'); 
         }
 
         // 2 этап авторизации
-        if ($this->model->availableToDownload()) {
+        elseif ($this->model->availableToDownload()) {
             $this->model->downloadFile();    
             $page = $this->route['page'];
-            $this->view->redirect("http://localhost/smartstorage/$page/");
-
+            $this->view->jumpOnPage($page);
         } 
 
         // враг не пройдёт
@@ -169,11 +165,11 @@ class StorageController extends Controller
     {
         // авторизация
         if ($this->model->notAuthorized()) {
-            $this->view->redirect('http://localhost/smartstorage/login/'); 
+            $this->view->jumpOnPage('login');    
         }
 
         $this->model->home();
-        $this->view->redirect("http://localhost/smartstorage/profile/");
+        $this->view->jumpOnPage('profile');
     }
 
     /**
@@ -183,14 +179,14 @@ class StorageController extends Controller
     {
         // 1 этап авторизации
         if ($this->model->notAuthorized()) {
-            $this->view->redirect('http://localhost/smartstorage/login/'); 
+            $this->view->jumpOnPage('login'); 
         }
 
         // 2 этап авторизации
-        if ($this->model->availableForViewing()) {
+        elseif ($this->model->availableForViewing()) {
             $this->model->changeLocation();
             $page = $this->route['page'];
-            $this->view->redirect("http://localhost/smartstorage/$page/");    
+            $this->view->jumpOnPage($page);    
         }
 
         // враг не пройдет
@@ -206,11 +202,11 @@ class StorageController extends Controller
     {
         // авторизация
         if ($this->model->notAuthorized()) {
-            $this->view->redirect('http://localhost/smartstorage/login/'); 
+            $this->view->jumpOnPage('login'); 
         }
 
         $this->model->levelUp();
         $page = $this->route['page'];
-        $this->view->redirect("http://localhost/smartstorage/$page/");
+        $this->view->jumpOnPage($page);
     }
 }

@@ -9,10 +9,10 @@ use application\lib\Template;
  */
 class View
 {
-	public $path;
+ 	public $path;
 	public $route;
 
-	public function __construct($route) 
+	public function __construct(array $route) 
 	{
 		$this->route = $route;
 		$this->path  = $route['controller'].'/'.$route['action'];
@@ -43,6 +43,19 @@ class View
 	}
 
 	/**
+	 * Обработка исключения $__exception
+	 * 
+	 * @param $__exception Исключение требующее обработки
+	 */
+	public static function exception($__exception)
+	{
+		$templateCode = file_get_contents('application/views/exceptions/exception.html');
+		$message  	  = ['message' => $__exception->getMessage()];
+		echo Template::build($templateCode, $message);
+		exit;
+	}
+
+	/**
 	 * Страница ошибки с кодом $__code
 	 */
 	public static function errorCode($__code) 
@@ -53,5 +66,13 @@ class View
 			require $path;
 		}
 		exit;
+	}
+
+	/**
+	 * Переход на указанную страницу сайта
+	 */
+	public function jumpOnPage($__page='')
+	{
+		$this->redirect("http://localhost/smartstorage/$__page/");
 	}
 }	

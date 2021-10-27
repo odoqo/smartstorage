@@ -17,8 +17,8 @@ class AccountController extends Controller
 	{
 		// проверка на уже вошедшего пользователя
 		if ($this->model->userLogged()) {
-			$this->view->redirect('http://localhost/smartstorage/profile/');
-		} 
+			$this->jumpOnPage('profile');
+		}
 		
 		// проверка на наличие данных для входа
 		elseif (empty($_POST)) {
@@ -31,7 +31,7 @@ class AccountController extends Controller
 			$status = $this->model->signIn();
 			
 			if ($status === 'success') {
-				$this->view->redirect('http://localhost/smartstorage/profile/');
+				$this->jumpOnPage('page');
 			}
 
 			$error = ['error' => $status];
@@ -46,7 +46,7 @@ class AccountController extends Controller
 	{
 		// проверка на вошедшего пользователя
 		if ($this->model->userLogged()) {
-			$this->view->redirect('http://localhost/smartstorage/profile/');
+			$this->jumpOnPage('profile');
 		} 
 		
 		// проверка на наличие данных для регистрации
@@ -59,7 +59,7 @@ class AccountController extends Controller
 			
 			$status = $this->model->signUp();
 			if ($status === 'success') {
-				$this->view->redirect('http://localhost/smartstorage/profile/');
+				$this->jumpOnPage('profile');
 			}	
 
 			$error = ['error' => $status];
@@ -73,7 +73,6 @@ class AccountController extends Controller
 	public function logoutAction()
 	{
 		$this->model->logout();
-		$this->view->redirect('http://localhost/smartstorage/');
+		$this->jumpOnPage('login');
 	}
-
 }

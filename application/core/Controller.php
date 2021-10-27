@@ -4,8 +4,8 @@ namespace application\core;
 
 use application\core\View;
 
-abstract class Controller {
-
+abstract class Controller 
+{
 	public $route;
 	public $view;
 	public $model;

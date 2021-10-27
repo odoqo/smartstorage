@@ -7,7 +7,7 @@ namespace application\lib;
  * 
  * @author odoqo 
  */
-class By
+class SearchBy
 {
     private string $mechanism;
     private array  $values;

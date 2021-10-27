@@ -2,8 +2,6 @@
 
 namespace application\lib;
 
-use Exception;
-
 /**
  * Класс для работы с базой данных MySQL
  * 
@@ -18,21 +16,30 @@ class Db
 			$config = require 'application/config/db.php';
 			$this->link = mysqli_connect($config['host'], $config['user'], $config['password'], $config['name']);
 		}
-
-		public function selectRow(string $__table, By $__by, array $__fields=[])
+		
+		/**
+		 * @return array
+		 */
+		public function selectRow(string $__table, SearchBy $__by, array $__fields=[])
 		{	
 			$query 	= $this->createSelect($__table, $__by, $__fields);
 			$result = $this->makeQuery($query);
 			return $result ? $result->fetch_assoc() : [];
 		}
 
-		public function selectRows(string $__table, By $__by, array $__fields=[])
+		/**
+		 * @return array
+		 */
+		public function selectRows(string $__table, SearchBy $__by, array $__fields=[])
 		{	
 			$query 	= $this->createSelect($__table, $__by, $__fields);
 			$result = $this->makeQuery($query);
 			return $result ? $result->fetch_all() : [];
 		}
-
+		
+		/**
+		 * @return bool
+		 */
 		public function insertRow(string $__table, array $__data)
 		{
 			$query  = $this->createInsertRow($__table, $__data);
@@ -40,14 +47,20 @@ class Db
 			return $result;
 		}
 
-		public function deleteRow(string $__table, By $__by)
+		/**
+		 * @return bool
+		 */
+		public function deleteRow(string $__table, SearchBy $__by)
 		{
 			$query  = $this->createDeleteRow($__table, $__by);
 			$result = $this->makeQuery($query);
 			return $result;
 		}
 
-		public function updateFields(string $__table, By $__by,  array $__sets)
+		/**
+		 * @return bool
+		 */
+		public function updateFields(string $__table, SearchBy $__by,  array $__sets)
 		{
 			$query  = $this->createUpdate($__table, $__by, $__sets);
 			$result = $this->makeQuery($query);
@@ -60,7 +73,7 @@ class Db
 			return $result;
 		}
 
-		private function createUpdate(string $__table, By $__by, array $__sets)
+		private function createUpdate(string $__table, SearchBy $__by, array $__sets)
 		{
 			$fields='';
 			foreach ($__sets as $field => $value) {
@@ -94,7 +107,7 @@ class Db
 				}
 		}
 
-		private function createSelect(string $__table, By $__by,  array $__fields=[])
+		private function createSelect(string $__table, SearchBy $__by,  array $__fields=[])
 		{
 
 			$fields='';
@@ -160,7 +173,7 @@ class Db
 
 		}
 
-		private function createDeleteRow(string $__table, By $__by)
+		private function createDeleteRow(string $__table, SearchBy $__by)
 		{
 			switch ($__by->getMechanism()) {
 			

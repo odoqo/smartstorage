@@ -3,7 +3,7 @@
 namespace application\models;
 
 use application\core\Model;
-use application\lib\By;
+use application\lib\SearchBy;
 use Exception;
 
 /**
@@ -98,7 +98,7 @@ class Account extends Model
         if (isset($_COOKIE['login']) && isset($_COOKIE['key'])) {
             $login = $_COOKIE['login'];
             $key   = $_COOKIE['key'];
-            return $this->db->selectRow('users', By::loginAndCookie($login, $key)) ;
+            return $this->db->selectRow('users', SearchBy::loginAndCookie($login, $key)) ;
         }
     }
 
@@ -110,7 +110,7 @@ class Account extends Model
     private function authentication()
     {
         $hash = hash('sha256', $this->password);
-        return $this->db->selectRow('users', By::loginAndPassword($this->login,  $hash));
+        return $this->db->selectRow('users', SearchBy::loginAndPassword($this->login,  $hash));
     }
 
     /**
@@ -124,7 +124,7 @@ class Account extends Model
         setcookie('key', $key, time() + 60*60, '/');
 
         $setsFields = ['cookie' => $key];
-        $this->db->updateFields('users', By::login($this->login), $setsFields);
+        $this->db->updateFields('users', SearchBy::login($this->login), $setsFields);
     }
 
     /**
@@ -166,7 +166,7 @@ class Account extends Model
      */
     private function userExist()    
     {
-       return $this->db->selectRow('users', By::login($this->login));
+       return $this->db->selectRow('users', SearchBy::login($this->login));
     }
 
     /**
