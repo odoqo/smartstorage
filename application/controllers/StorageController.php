@@ -65,7 +65,7 @@ class StorageController extends Controller
         
         // враг не пройдет
         else {
-            View::errorCode(403);
+            $this->view->errorCode(403);
         }
     }
     
@@ -87,7 +87,7 @@ class StorageController extends Controller
         
         // враг не пройдет
         else {
-            View::errorCode(403);
+            $this->view->errorCode(403);
         }
     }
 
@@ -109,7 +109,7 @@ class StorageController extends Controller
         
         // враг не пройдет
         else {
-            View::errorCode(403);
+            $this->view->errorCode(403);
         }
     }
 
@@ -131,7 +131,7 @@ class StorageController extends Controller
 
         //враг не пройдёт
         else {
-            View::errorCode(403);
+            $this->view->errorCode(403);
         }
     }
     
@@ -154,7 +154,7 @@ class StorageController extends Controller
 
         // враг не пройдёт
         else {
-            View::errorCode(403);
+            $this->view->errorCode(403);
         }
     }
     
@@ -191,7 +191,7 @@ class StorageController extends Controller
 
         // враг не пройдет
         else {
-            View::errorCode(403);
+            $this->view->errorCode(403);
         }
     }
 

@@ -132,4 +132,9 @@ return array(
 		'action'     => 'deleteCatalog',
 		'page'		 => 'users'
 	),
+
+	'smartstorage/404' => array(
+		'controller' => 'error',
+		'action'     => 'error404',
+	),
 );

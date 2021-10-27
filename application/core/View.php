@@ -29,7 +29,7 @@ class View
 			echo Template::build($templateCode, $__dataArray);
 			exit;
 		} else {
-			View::errorCode(404);
+			$this->errorCode(404);
 		}
 	}
 
@@ -47,7 +47,7 @@ class View
 	 * 
 	 * @param $__exception Исключение требующее обработки
 	 */
-	public static function exception($__exception)
+	public function exception($__exception)
 	{
 		$templateCode = file_get_contents('application/views/exceptions/exception.html');
 		$message  	  = ['message' => $__exception->getMessage()];
@@ -58,7 +58,7 @@ class View
 	/**
 	 * Страница ошибки с кодом $__code
 	 */
-	public static function errorCode($__code) 
+	public function errorCode($__code) 
 	{
 		http_response_code($__code);
 		$path = 'application/views/errors/'.$__code.'.php';
