@@ -2,45 +2,54 @@
 
 namespace application\models;
 
-use application\lib\Db;
 use application\core\Model;
-use application\lib\By;
+use application\lib\SearchBy;
+use Exception;
 
+/**
+ * Модель содержит основную логику действий с учетными записями пользователей 
+ */
 class Account extends Model
 {   
-
     private $login;
     private $password;
-    private $key;
 
     public function __construct()
     {
         parent::__construct();
-        $this->login    = $_POST['login'] ?? '';
-        $this->password = $_POST['password'] ?? '';
+        $this->login    = empty($_POST['login']) ? '' : $_POST['login'];
+        $this->password = empty($_POST['password']) ? '' : $_POST['password'];
     }
 
+    /**
+     * Регистрация аккаунта
+     */
 	public function signUp() 
     {
         if (!$this->checklogin() || !$this->checkPassword()) {
             return 'error: unvalid input data';
-        }
+        }   
 
         if ($this->userExist()) {
             return 'error: user exists'; 
         }
 
         if (!$this->addUser()) {
-            return 'error: insert fail';
+            throw new Exception('error: insert fail');
         }
 
         $this->setCockie();
 
-        $_SESSION['auth'] = true;
-
+        $_SESSION['login']    = $this->login;
+        $_SESSION['location'] = $this->login;
+        $_SESSION['auth']     = true;
+        
         return 'success'; 
     }
 
+    /**
+     * Вход в аккаунт
+     */
     public function signIn()
     {
         if (!$this->checklogin() || !$this->checkPassword()) {
@@ -57,41 +66,72 @@ class Account extends Model
 
         $this->setCockie();
 
-        $_SESSION['auth'] = true;
+        $_SESSION['login']    = $this->login;
+        $_SESSION['location'] = $this->login;
+        $_SESSION['auth']     = true;
 
         return 'success';
     }
 
+    /**
+     * Выход из аккаунта
+     */
+    public function logout()
+    {
+        setcookie('login', '', time() - 60*5, '/');
+        setcookie('key', '', time() - 60*5, '/');
+        unset($_SESSION);
+        session_destroy();
+    }
+
+    /**
+     * Авторизация 
+     * 
+     * @return bool
+     */
     public function userLogged() 
     {
         if (isset($_SESSION['auth']) && $_SESSION['auth'] === true) {
             return true;
-        } elseif (isset($_COOKIE['login']) && isset($_COOKIE['key'])) {
+        } 
+
+        if (isset($_COOKIE['login']) && isset($_COOKIE['key'])) {
             $login = $_COOKIE['login'];
             $key   = $_COOKIE['key'];
-            return $this->db->selectRow('users', By::loginAndCookie($login, $key)) ;
+            return $this->db->selectRow('users', SearchBy::loginAndCookie($login, $key)) ;
         }
     }
 
+    /**
+     * Аутентификация
+     * 
+     * @return bool
+     */
     private function authentication()
     {
         $hash = hash('sha256', $this->password);
-        return $this->db->selectRow('users', By::loginAndPassword($this->login,  $hash));
+        return $this->db->selectRow('users', SearchBy::loginAndPassword($this->login,  $hash));
     }
 
+    /**
+     * Установка кук
+     */
     private function setCockie() 
     {   
         $key = hash('sha256', $this->generateSalt()); 
-    
-        unset($_COOKIE);   
              
-        setcookie('login', $this->login, time() + 1000);
-        setcookie('key', $key, time() + 1000);
+        setcookie('login', $this->login, time() + 60*60, '/');
+        setcookie('key', $key, time() + 60*60, '/');
 
         $setsFields = ['cookie' => $key];
-        $this->db->updateFields('users', By::login($this->login), $setsFields);
+        $this->db->updateFields('users', SearchBy::login($this->login), $setsFields);
     }
 
+    /**
+     * Генерация случайной строки
+     * 
+     * @return string
+     */
     private function generateSalt()
 	{
 		$salt = '';
@@ -103,6 +143,11 @@ class Account extends Model
 		return $salt;
 	}
 
+    /**
+     * Добавление учетной записи
+     * 
+     * @return bool
+     */
     private function addUser() 
     {
         $hash = hash('sha256', $this->password);
@@ -115,26 +160,37 @@ class Account extends Model
         return $this->db->insertRow('users', $dataArr);
     }
 
+    /**
+     * Проверка на уже существующий аккаунт
+
+     */
     private function userExist()    
     {
-       return $this->db->selectRow('users', By::login($this->login)) ?: false;
+       return $this->db->selectRow('users', SearchBy::login($this->login));
     }
 
+    /**
+     * Проверка на несуществующий аккаунт
+     */
     private function userNotExist()
     {
         return !$this->userExist();
     }
 
+    /**
+     * Проверка логина
+     */
     private function checklogin()
     {
-        // format
-        $regexp = '/^[^@]+@[^@.]+\.[^@]+$/';
+        $regexp = '/^[^@]+@[^@.]{0,10}\.[^@]{1,4}$/';
         return preg_match($regexp, $this->login);
     }
 
+    /**
+     * Проверка пароля
+     */
     private function checkPassword()
     {
-        // format
         $regexp = '/^[A-Za-z0-9]{6,}$/';
         return preg_match($regexp, $this->password);
     }

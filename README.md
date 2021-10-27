@@ -1,1 +1,1 @@
-Smart Stroage
+#Smart Storage - храним данные с умом!

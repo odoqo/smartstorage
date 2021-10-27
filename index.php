@@ -2,10 +2,10 @@
 
 session_start();
 
-require 'application/lib/Dev.php';
 use application\core\Router;
+use application\core\View;
 
-// подгрузка необходимых классов
+// установка функции автозагрузки классов
 spl_autoload_register(function($class) {
     $path = str_replace('\\', '/', $class.'.php');
     if (file_exists($path)) {
@@ -14,7 +14,11 @@ spl_autoload_register(function($class) {
 
 });
 
+$router = new Router;
 
 // запуск маршрутизатора
-$router = new Router;
-$router->run();
+try {
+    $router->run();
+} catch (Exception $ex) {
+    View::exception($ex);   
+}

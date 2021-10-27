@@ -4,14 +4,21 @@ namespace application\controllers;
 
 use application\core\Controller;
 
-class AccountController extends Controller {
+/**
+ * Контроллер учетных записей пользователей
+ */
+class AccountController extends Controller 
+{
 
+	/**
+	 * Обработчик входа в аккаунт 
+	 */
 	public function loginAction() 
 	{
-		// проверка на авторизированного пользователя
+		// проверка на уже вошедшего пользователя
 		if ($this->model->userLogged()) {
-			$this->view->redirect('http://localhost/smartstorage/profile/');
-		} 
+			$this->view->jumpOnPage('profile');
+		}
 		
 		// проверка на наличие данных для входа
 		elseif (empty($_POST)) {
@@ -24,19 +31,22 @@ class AccountController extends Controller {
 			$status = $this->model->signIn();
 			
 			if ($status === 'success') {
-				$this->view->redirect('http://localhost/smartstorage/profile/');
+				$this->view->jumpOnPage('profile');
 			}
 
 			$error = ['error' => $status];
 			$this->view->generate($error);
 		}
 	}
-	
+
+	/**
+	 * Обработчик регистрации аккаунта 
+	 */
 	public function registerAction() 
 	{
-		// проверка на авторизированного пользователя
+		// проверка на вошедшего пользователя
 		if ($this->model->userLogged()) {
-			$this->view->redirect('http://localhost/smartstorage/profile/');
+			$this->view->jumpOnPage('profile');
 		} 
 		
 		// проверка на наличие данных для регистрации
@@ -49,11 +59,20 @@ class AccountController extends Controller {
 			
 			$status = $this->model->signUp();
 			if ($status === 'success') {
-				$this->view->redirect('http://localhost/smartstorage/profile/');
+				$this->view->jumpOnPage('profile');
 			}	
 
 			$error = ['error' => $status];
 			$this->view->generate($error);
 		}	
+	}
+
+	/**
+	 * Обработчик выхода из аккаунта 
+	 */
+	public function logoutAction()
+	{
+		$this->model->logout();
+		$this->view->jumpOnPage('login');
 	}
 }

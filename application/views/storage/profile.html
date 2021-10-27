@@ -5,44 +5,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Storage</title>
-    <!-- CSS only -->
+    <link href="/smartstorage/public/styles/css/bootstrap.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <form action="index.php" method="POST" enctype="multipart/form-data">
-        <nav class="navbar navbar-light border-bottom border-2" style="background-color: #e7f9ff;"">
-            <h1 class="display-6 mx-3"><strong>Smart Storage</strong></h1>
-            <a class="btn btn-sm btn-danger mx-2" name="logout" href="http://localhost/smartstorage/logout/" type="button">Выход</a>
-        </nav>
-        <div class="container">
-			
-			<div class="row mt-4">
-				
-                <div class="col-3"> 
-					<div class="list-group">
-					<!-- users_cycle -->
-						<a href="#" class="list-group-item list-group-item-action">
-							<h3 class=""><span class="text-body badge bg-light"><!-- .$user --></span></h3>
-						</a>
-					<!-- users_cycle_ends -->
-                    </div>
-                </div>
+      
+    
+    
+    <nav class="navbar bg-info bg-opacity-25 shadow-sm">
+        <h1 class="display-6 mx-3 text-primary">
+            <i>Smart </i><i class="text-info">Storage</i>
+        </h1>
+        <a class="btn btn-sm btn-danger mx-2" href="http://localhost/smartstorage/logout/" type="button">Выход</a>
+    </nav>
+      
+      
+      
+    <div class="container m-auto">
 
+		<div class="row mt-4">
+          
+            <div class="col-3">
+                <div class="list-group shadow">
 
-                <div class="col-3">
-					<div class="list-group">
-						<div class="list-group-item bg-light">
-						    <h5><!-- .$current_dir --></h5>
-                            <button type="button" class="btn btn-sm btn-secondary m-1">Перейти на уровень выше</button>
-						</div>
-						<div class="list-group-item bg-light">
-                            <input type="file" name="file" class="form-control form-control-sm border-dark m-1">
+                    <!-- форма добавления файла -->
+                    <form action="http://localhost/smartstorage/profile/newFile/" method="post" enctype="multipart/form-data">
+                        
+                        <div class="list-group-item bg-light">
+                            <input type="file" name="file" class="form-control form-control-sm m-1">
                             <div class="form-check">
-							    <input class="form-check-input" type="radio" name="file_rights" value="private" id="f1" checked>
-							    <label class="form-check-label" for="f1">Private</label>
+                                <input class="form-check-input" type="radio" name="file_rights" value="private" id="f1" checked>
+                                <label class="form-check-label" for="f1">Private</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="file_rights" value="public" id="f2">
@@ -53,17 +46,22 @@
                                 <label class="form-check-label" for="f3">Protected</label>
                             </div>
                             <div class="collapse" id="collapse_file_protected">
-                                <select name="list_of_users[]" multiple="multiple" class="form-select form-select-sm m-1" aria-label=".form-select-sm example" placeholder="Список пользователей">
-                                    <option selected value="<!-- .$user_now -->"><!-- .$user_now --></option>
-                                    <!-- list_users_cycle -->
+                                <select name="access_list[]" multiple="multiple" class="form-select form-select-sm m-1" aria-label=".form-select-sm example" placeholder="Список пользователей">
+                                    <!-- flist_users_cycle -->
                                     <option value="<!-- .$user -->"><!-- .$user --></option>
-                                    <!-- list_users_cycle_ends -->
+                                    <!-- flist_users_cycle_ends -->
                                 </select>
                             </div>                     
                             <button type="submit" name="add_file" class="btn btn-sm border-2 btn-outline-success m-1">Добавить файл</button>
                         </div>
+
+                    </form>
+        
+                    <!-- форма добавления каталога -->
+                    <form action="http://localhost/smartstorage/profile/newCatalog/" method="post">
+
                         <div class="list-group-item bg-light">
-                            <input type="text" name="catalog" class="form-control border-dark m-1" placeholder="Назавание добавляемого каталога">
+                            <input type="text" name="catalog" class="form-control m-1" placeholder="Назавание добавляемого каталога">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="catalog_rights" value="private" id="c1" checked>
                                 <label class="form-check-label" for="c1">Private</label>
@@ -74,36 +72,88 @@
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="catalog_rights" value="protected" id="c3" data-bs-toggle="collapse" data-bs-target="#collapse_catalog_protected" aria-expanded="false" aria-controls="collapse_catalog_protected">
-                                <label class="form-check-label" for="c3">Protected</label>
+                            <label class="form-check-label" for="c3">Protected</label>
                             </div>
                             <div class="collapse" id="collapse_catalog_protected">
-                                <select name="list_of_users[]" multiple="multiple" class="form-select form-select-sm m-1" aria-label=".form-select-sm example" placeholder="Список пользователей">
+                                <select name="access_list[]" multiple="multiple" class="form-select form-select-sm m-1" aria-label=".form-select-sm example" placeholder="Список пользователей">
                                     <option selected value="<!-- .$user_now -->"><!-- .$user_now --></option>
-                                    <!-- list_users_cycle -->
+                                    <!-- clist_users_cycle -->
                                     <option value="<!-- .$user -->"><!-- .$user --></option>
-                                    <!-- list_users_cycle_ends -->
+                                    <!-- clist_users_cycle_ends -->
                                 </select>
                             </div>
                             <button type="submit" name="add_cat" class="btn btn-sm border-2 btn-outline-success m-1">Добавить каталог</button>
                         </div>
-					</div>
+
+                    </form>
                 </div>
-				<div class="col -3 ">
-                    <div class="list-group">
-                        <ul class="list-group">
-                            <!-- data_cycle -->
-                            <li class="list-group-item">
-                                <h5><!-- .$file_or_dir_name --></h5>
-                                <button type="submit" name="<!-- .$file_or_cat -->" value="<!-- .$name_file_or_cat -->" class="btn btn-sm btn-outline-success m-1"><!-- .$load_or_go --></button>
-                                <button type="submit" name="<!-- .$delete_file_or_cat -->" value="<!-- .$id_file_or_cat -->" class="btn btn-sm btn-outline-danger m-1">Удалить</button>
-                            </li>
-                            <!-- data_cycle_ends -->
-                        </ul>
-                    </div>
-                </div>
-			</div>
-        </div>
-        </div>
-    </form>
+            </div>
+        
+
+            <!-- хранилище пользователя -->
+            <div class="col">
+            
+                    <nav class="nav nav-pills flex-column flex-sm-row mb-3">
+                        <a class="flex-sm-fill text-sm-center nav-link border shadow-sm bg-light disabled" href="#"><!-- .$location --></a>
+                        <a class="flex-sm-fill text-sm-center nav-link border shadow-sm" href="http://localhost/smartstorage/users/">Список пользователей</a>
+                    </nav>     
+                    
+                        <div class="list-group">    
+                              
+                            <ul class="list-group ">
+                                <li class="list-group-item shadow p-0">
+                                    <a class="h5 nav-link" href="http://localhost/smartstorage/profile/levelUp/">/..</a>
+                                </li>
+                                <!-- cataloges_cycle -->
+                                <li class="list-group-item shadow">
+                                    
+                                    <h5><!-- .$name -->
+                                        <i class="h6 text-secondary"><!-- .$rights --></i>
+                                    
+                                    </h5>
+                                    <div class="btn-group" role="group" aria-label="">
+                                    
+                                    <!-- формы для взаимодействия с данными в текщем каталоге -->
+                                    <form action="http://localhost/smartstorage/profile/changeLocation/" method="post">
+                                        <button type="submit" name="go" value="<!-- .$id_for_action -->" class=" btn btn-sm btn-outline-success border-2 m-1">
+                                            Перейти
+                                        </button>
+                                    </form>
+                                    <form action="http://localhost/smartstorage/profile/deleteCatalog/" method="post">
+                                        <button type="submit" name="delete_catalog" value="<!-- .$id_for_delete -->" class="btn btn-sm btn-outline-danger border-2 m-1" >
+                                            Удалить
+                                        </button>
+                                    </form>
+                                    </div>
+                                </li>
+                                <!-- cataloges_cycle_ends -->
+                                <!-- files_cycle -->
+                                <li class="list-group-item shadow">
+                                    <h5><!-- .$name -->
+                                        <i class="h6 text-secondary"><!-- .$rights --></i>
+                                    </h5>
+                                    
+                                    <div class="btn-group" role="group" aria-label="">
+                                    <form action="http://localhost/smartstorage/profile/downloadFile/" method="post">
+                                        <button type="submit" name="download" value="<!-- .$id_for_action -->" class=" btn btn-sm btn-outline-success border-2 m-1">
+                                            Загрузить
+                                        </button>
+                                    </form>
+                                    <form action="http://localhost/smartstorage/profile/deleteFile/" method="post">
+                                        <button type="submit" name="delete_file" value="<!-- .$id_for_delete -->" class="btn btn-sm btn-outline-danger border-2 m-1" >
+                                            Удалить
+                                        </button>
+                                    </form>
+                                    </div>
+                                </li>
+                                <!-- files_cycle_ends -->
+                            </ul>
+                        </div>
+         
+            </div>
+        </div>            
+    </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="smartstorage\public\scripts\bootstrap.js"></script>
 </html>

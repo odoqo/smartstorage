@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Storage</title>
+    <link href="/smartstorage/public/styles/css/bootstrap.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+</head>
+<body>
+      
+    
+    
+    <nav class="navbar bg-info bg-opacity-25 shadow-sm">
+        <h1 class="display-6 mx-3 text-primary">
+            <i>Smart </i><i class="text-info">Storage</i>
+        </h1>
+        <a class="btn btn-sm btn-danger mx-2" name="logout" href="http://localhost/smartstorage/logout/" type="button">Выход</a>
+    </nav>
+      
+      
+    <div class="container m-auto">
+		<div class="row mt-4">
+
+            <div class="col-4"> 
+            
+                <!-- список пользователей -->
+                <form action="http://localhost/smartstorage/users/changeLocation/" method="post">
+                    <div class="list-group shadow">
+                    <!-- users_cycle -->
+                        <button type="submit" name="user" value="<!-- .$user -->" class="list-group-item list-group-item-action">
+                            <h4 class=""><span class="text-body badge bg-light "><!-- .$user --></span></h4>
+                        </button>
+                    <!-- users_cycle_ends -->
+                    </div>
+                </form>
+            
+            </div>
+            
+        
+            <div class="col">
+            
+                <nav class="nav nav-pills flex-column flex-sm-row mb-3">
+                    <a class="flex-sm-fill text-sm-center nav-link border shadow-sm bg-light disabled" href="#"><!-- .$location --></a>
+                    <a class="flex-sm-fill text-sm-center nav-link border shadow-sm" href="http://localhost/smartstorage/home/">Вернуться в своё хранилище</a>
+                </nav>     
+                
+                    <div class="list-group">    
+                          
+                        <ul class="list-group ">
+                            <li class="list-group-item shadow p-0">
+                                <a class="h5 nav-link" href="http://localhost/smartstorage/users/levelUp/">/..</a>
+                            </li>
+                            <!-- cataloges_cycle -->
+                            <li class="list-group-item shadow">
+                                
+                                <h5><!-- .$name -->
+                                    <i class="h6 text-secondary"><!-- .$rights --></i>
+                                
+                                </h5>
+                                <div class="btn-group" role="group" aria-label="">
+                                
+                                <!-- формы для взаимодействия с данными в текщем каталоге -->
+                                <form action="http://localhost/smartstorage/users/changeLocation/" method="post">
+                                    <button type="submit" name="go" value="<!-- .$id_for_action -->" class=" btn btn-sm btn-outline-success border-2 m-1">
+                                        Перейти
+                                    </button>
+                                </form>
+                                <!-- RootVar.$isAdmin=1 -->
+                                <form action="http://localhost/smartstorage/users/deleteCatalog/" method="post">
+                                    <button type="submit" name="delete_catalog" value="<!-- .$id_for_delete -->" class="btn btn-sm btn-outline-danger border-2 m-1">
+                                        Удалить
+                                    </button>
+                                </form>
+                                <!-- RootVar.$isAdmin_ends -->
+                                </div>
+                            </li>
+                            <!-- cataloges_cycle_ends -->
+                            <!-- files_cycle -->
+                            <li class="list-group-item shadow">
+                                <h5><!-- .$name -->
+                                    <i class="h6 text-secondary"><!-- .$rights --></i>
+                                </h5>
+                                
+                                <div class="btn-group" role="group" aria-label="">
+                                <form action="http://localhost/smartstorage/users/downloadFile/" method="post">
+                                    <button type="submit" name="download" value="<!-- .$id_for_delete -->" class=" btn btn-sm btn-outline-success border-2 m-1">
+                                        Загрузить
+                                    </button>
+                                </form>
+                                <!-- RootVar.$isAdmin=1 -->
+                                <form action="http://localhost/smartstorage/users/deleteFile/" method="post">
+                                    <button type="submit" name="delete_file" value="<!-- .$id_for_delete -->" class="btn btn-sm btn-outline-danger border-2 m-1" >
+                                        Удалить
+                                    </button>
+                                </form>
+                                <!-- RootVar.$isAdmin_ends -->
+                                </div>
+                            </li>
+                            <!-- files_cycle_ends -->
+                        </ul>
+                    </div>
+     
+        </div>
+
+        </div>  
+    </div>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="smartstorage\public\scripts\bootstrap.js"></script>
+</html>
